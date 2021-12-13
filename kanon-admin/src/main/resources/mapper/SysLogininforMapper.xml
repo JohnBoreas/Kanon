@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kanon.admin.mapper.SysLoginInfoMapper">
+
+	<resultMap type="SystemLoginInfo" id="SystemLoginInfoResult">
+		<id     property="id"        column="id"           />
+		<result property="userId"     column="user_id"        />
+		<result property="status"        column="status"            />
+		<result property="ipAddr"        column="ip_addr"            />
+		<result property="loginLocation" column="login_location"    />
+		<result property="browser"       column="browser"           />
+		<result property="os"            column="os"                />
+		<result property="msg"           column="msg"               />
+		<result property="loginTime"     column="login_time"        />
+	</resultMap>
+
+	<insert id="insertLogininfor" parameterType="SystemLoginInfo">
+		insert into tb_system_login_info (user_id, status, ip_addr, login_location, browser, os, msg, login_time)
+		values (#{userId}, #{status}, #{ipAddr}, #{loginLocation}, #{browser}, #{os}, #{msg}, sysdate())
+	</insert>
+	
+	<select id="selectLogininforList" parameterType="SystemLoginInfo" resultMap="SystemLoginInfoResult">
+		select info_id,user_id,ip_addr,login_location,browser,os,status,msg,login_time from tb_system_login_info
+		<where>
+			<if test="ipAddr != null and ipAddr != ''">
+				AND ip_addr like concat('%', #{ipAddr}, '%')
+			</if>
+			<if test="status != null and status != ''">
+				AND status = #{status}
+			</if>
+			<if test="userId != null and userId != ''">
+				AND user_id like concat('%', #{userId}, '%')
+			</if>
+			<if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+				and date_format(login_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+			</if>
+			<if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+				and date_format(login_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+			</if>
+		</where>
+	</select>
+	
+	<delete id="deleteLogininforByIds" parameterType="String">
+ 		delete from tb_system_login_info where info_id in
+ 		<foreach collection="array" item="infoId" open="(" separator="," close=")">
+ 			#{infoId}
+        </foreach> 
+ 	</delete>
+    
+    <update id="cleanLogininfor">
+        truncate table tb_system_login_info
+    </update>
+    
+</mapper> 

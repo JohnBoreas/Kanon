@@ -1,0 +1,46 @@
+spring:
+  datasource:
+    charlotte-spider:
+      poolName: charlotte-spider-pool
+      ## 新版本用com.mysql.cj.jdbc.Driver, 老版本用com.mysql.jdbc.Driver
+      driverClassName: com.mysql.cj.jdbc.Driver
+      ## 各个版本的 springboot 配置 datasource 时参数有所变化，例如低版本配置数据库 url 时使用 url 属性，高版本使用 jdbc-url 属性，请注意区分
+      jdbcUrl: jdbc:mysql://192.168.16.101:3306/kanon_charlotte_spider?characterEncoding=utf-8&socketTimeout=600000&autoReconnect=true
+      username: root
+      password: 123456
+      maximumPoolSize: 100
+      minimumIdle: 5
+      connectionInitSql: SELECT 1
+      idleTimeout: 10000
+      maxLifetime: 300000
+      validationTimeout: 300
+      connectionTimeout: 3000
+    wealth-password:
+      poolName: wealth-password-pool
+      driverClassName: com.mysql.cj.jdbc.Driver
+      jdbcUrl: jdbc:mysql://192.168.16.101:3306/tb_wealth_password_engine?characterEncoding=utf-8&socketTimeout=600000&autoReconnect=true
+      username: root
+      password: 123456
+      maximumPoolSize: 50
+      minimumIdle: 5
+      connectionInitSql: SELECT 1
+      idleTimeout: 10000
+      maxLifetime: 300000
+      validationTimeout: 300
+      connectionTimeout: 3000
+
+    #  data:
+    #    hbase:
+    #      quorum: zookeper
+    #      clientPort: 2181
+    #      rpcTimeout: 3000
+    #      clientScannerTimeoutPeriod: 3000
+    #      clientOperationTimeout: 3000
+    #      clientRetriesNumber: 1
+    #      clientPause: 100
+    #      zkRetry: 1
+    #      zkRetryInterval: 100
+    #      clientIpcPoolSize: 10
+    # nodeParent:
+#    solr:
+#      host: http://solr.com/solr
