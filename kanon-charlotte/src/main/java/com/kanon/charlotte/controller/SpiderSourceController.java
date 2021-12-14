@@ -87,8 +87,8 @@ public class SpiderSourceController extends BaseController {
      */
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") Long id, ModelMap mmap) {
-        SpiderSource tbSpiderSource = spiderSourceService.selectSpiderSourceById(id);
-        mmap.put("tbSpiderSource", tbSpiderSource);
+        SpiderSource source = spiderSourceService.selectSpiderSourceById(id);
+        mmap.put("source", source);
         return prefix + "/edit";
     }
 

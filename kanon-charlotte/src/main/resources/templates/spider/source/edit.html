@@ -5,7 +5,7 @@
 </head>
 <body class="white-bg">
 <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-    <form class="form-horizontal m" id="form-source-edit" th:object="${spiderSource}">
+    <form class="form-horizontal m" id="form-source-edit" th:object="${source}">
         <input name="id" th:field="*{id}" type="hidden">
         <div class="form-group">
             <label class="col-sm-3 control-label is-required">数据来源名称 ：</label>
@@ -23,70 +23,80 @@
             <label class="col-sm-3 control-label">请求URL：</label>
             <div class="col-sm-8">
                 <textarea name="reqUrl" class="form-control">[[*{reqUrl}]]</textarea>
+                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 例子：http://eastmoney.com/clist/get?pn={pageNo}</span>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">请求方法：</label>
             <div class="col-sm-8">
-                <input name="reqMethod" th:field="*{reqMethod}" class="form-control" type="text">
+                <select name="reqMethod" class="form-control m-b" th:with="type=${@dict.getType('spider_req_method')}">
+                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{reqMethod}"></option>
+                </select>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">请求参数：</label>
             <div class="col-sm-8">
                 <textarea name="reqParam" class="form-control">[[*{reqParam}]]</textarea>
+                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 例子：{"{pageNo}":"1","{currentTime}":"","{pageSize}":"20"}</span>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">数据类型：</label>
             <div class="col-sm-8">
-                <select name="dataType" class="form-control m-b">
-                    <option value="">所有</option>
+                <select name="dataType" class="form-control m-b" th:with="type=${@dict.getType('spider_data_type')}">
+                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{dataType}"></option>
                 </select>
-                <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">是否分页，0-不分页;1-分页：</label>
+            <label class="col-sm-3 control-label">是否分页：</label>
             <div class="col-sm-8">
-                <input name="isPage" th:field="*{isPage}" class="form-control" type="text">
+                <label class="radio-box"> <input type="radio" th:field="*{isPage}" name="isPage" value="0"/> 不分页 </label>
+                <label class="radio-box"> <input type="radio" th:field="*{isPage}" name="isPage" value="1"/> 分页 </label>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">字符集：</label>
             <div class="col-sm-8">
-                <input name="charset" th:field="*{charset}" class="form-control" type="text">
+                <select name="charset" class="form-control m-b" th:with="type=${@dict.getType('spider_data_charset')}">
+                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{charset}"></option>
+                </select>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">是否需要代理ip，0-不需要;1-需要：</label>
+            <label class="col-sm-3 control-label">是否需要代理ip：</label>
             <div class="col-sm-8">
-                <input name="needProxy" th:field="*{needProxy}" class="form-control" type="text">
+                <label class="radio-box"> <input type="radio" th:field="*{needProxy}" name="needProxy" value="0"/> 不需要 </label>
+                <label class="radio-box"> <input type="radio" th:field="*{needProxy}" name="needProxy" value="1"/> 需要 </label>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">是否需要cookie，0-不需要;1-需要：</label>
+            <label class="col-sm-3 control-label">是否需要cookie：</label>
             <div class="col-sm-8">
-                <input name="needCookie" th:field="*{needCookie}" class="form-control" type="text">
+                <label class="radio-box"> <input type="radio" th:field="*{needCookie}" name="needCookie" value="0"/> 不需要 </label>
+                <label class="radio-box"> <input type="radio" th:field="*{needCookie}" name="needCookie" value="1"/> 需要 </label>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">是否需要token认证信息，0-不需要;1-需要：</label>
+            <label class="col-sm-3 control-label">是否需要token认证信息：</label>
             <div class="col-sm-8">
-                <input name="needToken" th:field="*{needToken}" class="form-control" type="text">
+                <label class="radio-box"> <input type="radio" th:field="*{needToken}" name="needToken" value="0"/> 不需要 </label>
+                <label class="radio-box"> <input type="radio" th:field="*{needToken}" name="needToken" value="1"/> 需要 </label>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">cookie是否过期，0-未过期;1-过期：</label>
+            <label class="col-sm-3 control-label">cookie是否过期：</label>
             <div class="col-sm-8">
-                <input name="isLastCookie" th:field="*{isLastCookie}" class="form-control" type="text">
+                <label class="radio-box"> <input type="radio" th:field="*{isLastCookie}" name="isLastCookie" value="0"/> 未过期 </label>
+                <label class="radio-box"> <input type="radio" th:field="*{isLastCookie}" name="isLastCookie" value="1"/> 过期 </label>
             </div>
         </div>
     </form>
 </div>
 <th:block th:include="include :: footer" />
 <script th:inline="javascript">
-    var prefix = ctx + "system/source";
+    var prefix = ctx + "spider/source";
     $("#form-source-edit").validate({
         focusCleanup: true
     });
