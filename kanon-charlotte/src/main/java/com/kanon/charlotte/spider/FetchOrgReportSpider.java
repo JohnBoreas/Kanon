@@ -1,7 +1,7 @@
 package com.kanon.charlotte.spider;
 
-import com.kanon.charlotte.util.HttpClientUtils;
-import com.kanon.charlotte.util.JdbcTemplateUtils;
+import com.kanon.common.http.httpclient.HttpClientUtils;
+import com.kanon.common.db.JdbcTemplateUtils;
 import com.kanon.charlotte.util.StructureChangeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

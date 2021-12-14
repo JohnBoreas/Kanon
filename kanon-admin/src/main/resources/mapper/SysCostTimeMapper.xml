@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kanon.admin.mapper.SysCostTimeMapper">
     
-    <resultMap type="SystemCostTime" id="SystemCostTimeResult">
+    <resultMap type="com.kanon.framework.system.entity.SystemCostTime" id="SystemCostTimeResult">
         <result property="id"    column="id"    />
         <result property="className"    column="class_name"    />
         <result property="methodName"    column="method_name"    />
@@ -15,7 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, class_name, method_name, spend_time from tb_system_cost_time
     </sql>
 	
-    <select id="selectCostTimeList" parameterType="SystemCostTime" resultMap="SystemCostTimeResult">
+    <select id="selectCostTimeList" parameterType="com.kanon.framework.system.entity.SystemCostTime" resultMap="SystemCostTimeResult">
         <include refid="selectCostTimeVo"/>
         <where>  
             <if test="id != null "> and id = #{id}</if>
@@ -31,7 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
         
-    <insert id="insertCostTime" parameterType="SystemCostTime">
+    <insert id="insertCostTime" parameterType="com.kanon.framework.system.entity.SystemCostTime">
         insert into tb_system_cost_time
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null  ">id,</if>
@@ -47,7 +47,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 	 
-    <update id="updateCostTime" parameterType="SystemCostTime">
+    <update id="updateCostTime" parameterType="com.kanon.framework.system.entity.SystemCostTime">
         update tb_system_cost_time
         <trim prefix="SET" suffixOverrides=",">
             <if test="className != null  and className != ''  ">class_name = #{className},</if>

@@ -1,7 +1,7 @@
 package com.kanon.charlotte.service.explain;
 
-import com.kanon.charlotte.entity.PageResults;
-import com.kanon.charlotte.entity.Results;
+import com.kanon.charlotte.common.SpiderPageResult;
+import com.kanon.charlotte.common.SpiderResult;
 import com.kanon.charlotte.entity.SpiderExplainStringDto;
 import com.kanon.charlotte.service.BaseService;
 
@@ -18,13 +18,13 @@ public interface ExplainStringService extends BaseService {
      * @param dtoMap
      * @return
      */
-    Results<Map<String, String>> explain(Map<String, SpiderExplainStringDto> dtoMap, String content);
+    SpiderResult<Map<String, String>> explain(Map<String, SpiderExplainStringDto> dtoMap, String content);
 
     /**
      * 解析分页
      * @param dtoMap
      * @return
      */
-    PageResults<Map<String, String>> explainPage(Map<String, SpiderExplainStringDto> dtoMap, String content);
+    SpiderPageResult<Map<String, String>> explainPage(Map<String, SpiderExplainStringDto> dtoMap, String content);
 
 }

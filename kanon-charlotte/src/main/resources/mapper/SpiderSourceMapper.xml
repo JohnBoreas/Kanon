@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kanon.charlotte.mapper.SpiderSourceMapper">
+
+    <resultMap type="com.kanon.charlotte.entity.SpiderSource" id="SpiderSourceResult">
+        <result property="id"    column="id"    />
+        <result property="spiderSource"    column="spider_source"    />
+        <result property="sourceDes"    column="source_des"    />
+        <result property="reqUrl"    column="req_url"    />
+        <result property="reqMethod"    column="req_method"    />
+        <result property="reqParam"    column="req_param"    />
+        <result property="dataType"    column="data_type"    />
+        <result property="isPage"    column="is_page"    />
+        <result property="charset"    column="charset"    />
+        <result property="needProxy"    column="need_proxy"    />
+        <result property="needCookie"    column="need_cookie"    />
+        <result property="needToken"    column="need_token"    />
+        <result property="isLastCookie"    column="is_last_cookie"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectSpiderSourceVo">
+        select id, spider_source, source_des, req_url, req_method, req_param, data_type, is_page, charset, need_proxy, need_cookie, need_token, is_last_cookie, create_time, update_time from tb_spider_source
+    </sql>
+
+    <select id="selectSpiderSourceList" parameterType="com.kanon.charlotte.entity.SpiderSource" resultMap="SpiderSourceResult">
+        <include refid="selectSpiderSourceVo"/>
+        <where>
+            <if test="spiderSource != null  and spiderSource != ''"> and spider_source = #{spiderSource}</if>
+            <if test="sourceDes != null  and sourceDes != ''"> and source_des = #{sourceDes}</if>
+            <if test="reqUrl != null  and reqUrl != ''"> and req_url = #{reqUrl}</if>
+            <if test="reqMethod != null  and reqMethod != ''"> and req_method = #{reqMethod}</if>
+            <if test="reqParam != null  and reqParam != ''"> and req_param = #{reqParam}</if>
+            <if test="dataType != null  and dataType != ''"> and data_type = #{dataType}</if>
+            <if test="isPage != null "> and is_page = #{isPage}</if>
+            <if test="charset != null  and charset != ''"> and charset = #{charset}</if>
+            <if test="needProxy != null "> and need_proxy = #{needProxy}</if>
+            <if test="needCookie != null "> and need_cookie = #{needCookie}</if>
+            <if test="needToken != null "> and need_token = #{needToken}</if>
+            <if test="isLastCookie != null "> and is_last_cookie = #{isLastCookie}</if>
+        </where>
+    </select>
+
+    <select id="selectSpiderSourceById" parameterType="Long" resultMap="SpiderSourceResult">
+        <include refid="selectSpiderSourceVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSpiderSource" parameterType="com.kanon.charlotte.entity.SpiderSource" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_spider_source
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="spiderSource != null and spiderSource != ''">spider_source,</if>
+            <if test="sourceDes != null">source_des,</if>
+            <if test="reqUrl != null">req_url,</if>
+            <if test="reqMethod != null">req_method,</if>
+            <if test="reqParam != null">req_param,</if>
+            <if test="dataType != null">data_type,</if>
+            <if test="isPage != null">is_page,</if>
+            <if test="charset != null">charset,</if>
+            <if test="needProxy != null">need_proxy,</if>
+            <if test="needCookie != null">need_cookie,</if>
+            <if test="needToken != null">need_token,</if>
+            <if test="isLastCookie != null">is_last_cookie,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="spiderSource != null and spiderSource != ''">#{spiderSource},</if>
+            <if test="sourceDes != null">#{sourceDes},</if>
+            <if test="reqUrl != null">#{reqUrl},</if>
+            <if test="reqMethod != null">#{reqMethod},</if>
+            <if test="reqParam != null">#{reqParam},</if>
+            <if test="dataType != null">#{dataType},</if>
+            <if test="isPage != null">#{isPage},</if>
+            <if test="charset != null">#{charset},</if>
+            <if test="needProxy != null">#{needProxy},</if>
+            <if test="needCookie != null">#{needCookie},</if>
+            <if test="needToken != null">#{needToken},</if>
+            <if test="isLastCookie != null">#{isLastCookie},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSpiderSource" parameterType="com.kanon.charlotte.entity.SpiderSource">
+        update tb_spider_source
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="spiderSource != null and spiderSource != ''">spider_source = #{spiderSource},</if>
+            <if test="sourceDes != null">source_des = #{sourceDes},</if>
+            <if test="reqUrl != null">req_url = #{reqUrl},</if>
+            <if test="reqMethod != null">req_method = #{reqMethod},</if>
+            <if test="reqParam != null">req_param = #{reqParam},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+            <if test="isPage != null">is_page = #{isPage},</if>
+            <if test="charset != null">charset = #{charset},</if>
+            <if test="needProxy != null">need_proxy = #{needProxy},</if>
+            <if test="needCookie != null">need_cookie = #{needCookie},</if>
+            <if test="needToken != null">need_token = #{needToken},</if>
+            <if test="isLastCookie != null">is_last_cookie = #{isLastCookie},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSpiderSourceById" parameterType="Long">
+        delete from tb_spider_source where id = #{id}
+    </delete>
+
+    <delete id="deleteSpiderSourceByIds" parameterType="String">
+        delete from tb_spider_source where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

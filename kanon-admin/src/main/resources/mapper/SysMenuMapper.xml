@@ -4,7 +4,7 @@
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kanon.admin.mapper.SysMenuMapper">
 
-	<resultMap type="SystemMenu" id="SystemMenuResult">
+	<resultMap type="com.kanon.framework.system.entity.SystemMenu" id="SystemMenuResult">
 		<id     property="id"         column="id"        />
 		<result property="menuName"       column="menu_name"      />
 		<result property="parentName"     column="parent_name"    />
@@ -77,7 +77,7 @@
 		order by m.parent_id, m.order_num
 	</select>
 
-	<select id="selectMenuList" parameterType="SystemMenu" resultMap="SystemMenuResult">
+	<select id="selectMenuList" parameterType="com.kanon.framework.system.entity.SystemMenu" resultMap="SystemMenuResult">
 		<include refid="selectMenuVo"/>
 		<where>
 			<if test="menuName != null and menuName != ''">
@@ -90,7 +90,7 @@
 		order by parent_id, order_num
 	</select>
 
-	<select id="selectMenuListByUserId" parameterType="SystemMenu" resultMap="SystemMenuResult">
+	<select id="selectMenuListByUserId" parameterType="com.kanon.framework.system.entity.SystemMenu" resultMap="SystemMenuResult">
 		select distinct m.id, m.parent_id, m.menu_name, m.url, m.visible, ifnull(m.perms,'') as perms, m.target, m.menu_type, m.icon, m.order_num, m.create_time
 		from tb_system_menu m
 		left join tb_system_role_menu rm on m.id = rm.menu_id
@@ -121,12 +121,12 @@
 	    select count(1) from tb_system_menu where parent_id=#{id}
 	</select>
 
-	<select id="checkMenuNameUnique" parameterType="SystemMenu" resultMap="SystemMenuResult">
+	<select id="checkMenuNameUnique" parameterType="com.kanon.framework.system.entity.SystemMenu" resultMap="SystemMenuResult">
 		<include refid="selectMenuVo"/>
 		where menu_name=#{menuName} and parent_id = #{parentId} limit 1
 	</select>
 
-	<update id="updateMenu" parameterType="SystemMenu">
+	<update id="updateMenu" parameterType="com.kanon.framework.system.entity.SystemMenu">
 		update tb_system_menu
 		<set>
 			<if test="menuName != null and menuName != ''">menu_name = #{menuName},</if>
@@ -145,7 +145,7 @@
 		where id = #{id}
 	</update>
 
-	<insert id="insertMenu" parameterType="SystemMenu">
+	<insert id="insertMenu" parameterType="com.kanon.framework.system.entity.SystemMenu">
 		insert into tb_system_menu(
 		<if test="id != null and id != 0">id,</if>
 		<if test="parentId != null and parentId != 0">parent_id,</if>

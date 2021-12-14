@@ -3,8 +3,8 @@ package com.kanon.charlotte.service.explain.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.kanon.charlotte.constants.SpiderConstants;
 import com.kanon.charlotte.constants.ValueType;
-import com.kanon.charlotte.entity.PageResults;
-import com.kanon.charlotte.entity.Results;
+import com.kanon.charlotte.common.SpiderPageResult;
+import com.kanon.charlotte.common.SpiderResult;
 import com.kanon.charlotte.entity.SpiderExplainStringDto;
 import com.kanon.charlotte.service.explain.ExplainStringService;
 import com.kanon.charlotte.util.DateUtils;
@@ -21,23 +21,23 @@ import java.util.*;
 public class ExplainJsonStringService implements ExplainStringService {
 
     @Override
-    public Results<Map<String, String>> explain(Map<String, SpiderExplainStringDto> dtoMap, String content) {
+    public SpiderResult<Map<String, String>> explain(Map<String, SpiderExplainStringDto> dtoMap, String content) {
         //  mtopjsonp(........)
-        Results<Map<String, String>> results = Results.emptyResult();
+        SpiderResult<Map<String, String>> spiderResult = SpiderResult.emptyResult();
         if (content.contains("<html>")) {
-            results.setErrorMsg("当前页非Json, 为HTML");
-            return results;
+            spiderResult.setErrorMsg("当前页非Json, 为HTML");
+            return spiderResult;
         }
         if (content.endsWith(SpiderConstants.SMALL_RIGHT_BRACKETS) || content.endsWith(");") || !content.startsWith(SpiderConstants.BIG_LEFT_BRACKETS)) {
             content = content.substring(content.indexOf(SpiderConstants.BIG_LEFT_BRACKETS), content.lastIndexOf(SpiderConstants.BIG_RIGHT_BRACKETS) + 1);
         }
         // 用于判断是否抓取正常
         String code = String.valueOf(JsonUtils.getObject(dtoMap.get(SpiderConstants.CODE).getExplainValue(), content));
-        results.setCode(code);
+        spiderResult.setCode(code);
         // 失败返回
         if (!dtoMap.get(SpiderConstants.CODE_VALUE).getExplainValue().equals(code)) {
-            results.setErrorMsg("抓取失败, 抓取返回code非正常返回值");
-            return results;
+            spiderResult.setErrorMsg("抓取失败, 抓取返回code非正常返回值");
+            return spiderResult;
         }
         String currentDate = DateUtils.getBeforeMinuteTimeStr(new Date(), 0, "yyyy-MM-dd");
         // 获取数据
@@ -53,14 +53,14 @@ public class ExplainJsonStringService implements ExplainStringService {
                 resultMap.put(entry.getKey(), currentDate);
             }
         }
-        results.setResults(resultMap);
-        return results;
+        spiderResult.setResults(resultMap);
+        return spiderResult;
     }
 
     @Override
-    public PageResults<Map<String, String>> explainPage(Map<String, SpiderExplainStringDto> dtoMap, String content) {
+    public SpiderPageResult<Map<String, String>> explainPage(Map<String, SpiderExplainStringDto> dtoMap, String content) {
         //  mtopjsonp(........)
-        PageResults<Map<String, String>> results = PageResults.emptyResult();
+        SpiderPageResult<Map<String, String>> results = SpiderPageResult.emptyResult();
         if (content.contains("<html>")) {
             results.setErrorMsg("当前页非Json, 为HTML");
             return results;

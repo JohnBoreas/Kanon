@@ -1,6 +1,5 @@
 package com.kanon.charlotte.entity;
 
-import com.kanon.charlotte.entity.BaseTime;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -9,8 +8,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class SpiderSourceDto extends BaseTime {
-
+public class SpiderSource extends BaseTime {
+    /** 自增id */
+    private Long id;
     /**
      * 数据来源名称
      */
@@ -42,6 +42,16 @@ public class SpiderSourceDto extends BaseTime {
     @SerializedName("data_type")
     protected String dataType;
     /**
+     * 是否分页，0-不分页;1-分页
+     */
+    @SerializedName("is_page")
+    protected Integer isPage;
+    /**
+     * 字符集
+     */
+    @SerializedName("charset")
+    protected String charset;
+    /**
      * 是否需要代理ip
      */
     @SerializedName("need_proxy")
@@ -62,17 +72,18 @@ public class SpiderSourceDto extends BaseTime {
     @SerializedName("is_last_cookie")
     protected Integer isLastCookie;
 
-    public Boolean isNeedProxy() {
+    public Boolean needProxy() {
         if (needProxy != null && needProxy == 1) {
             return true;
         }
         return false;
     }
 
-    public Boolean isNeedCookie() {
-        if (needProxy != null && needProxy == 1) {
+    public Boolean needCookie() {
+        if (needCookie != null && needCookie == 1) {
             return true;
         }
         return false;
     }
+
 }

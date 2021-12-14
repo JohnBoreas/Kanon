@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kanon.admin.mapper.SysUserMapper">
 
-	<resultMap type="SystemUser" id="SystemUserResult">
+	<resultMap type="com.kanon.framework.system.entity.SystemUser" id="SystemUserResult">
 		<id     property="id"       column="id"      />
 		<result property="userId"    column="user_id"   />
 		<result property="userName"     column="user_name"    />
@@ -32,7 +32,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<collection  property="roles"   javaType="java.util.List"        resultMap="RoleResult" />
 	</resultMap>
 	
-	<resultMap type="SystemRole" id="RoleResult">
+	<resultMap type="com.kanon.framework.system.entity.SystemRole" id="RoleResult">
 		<id     property="id"       column="id"        />
 		<result property="roleName"     column="role_name"      />
 		<result property="roleKey"      column="role_key"       />
@@ -50,7 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			 left join tb_system_role r on r.id = ur.role_id
     </sql>
 	
-	<select id="selectUserList" parameterType="SystemUser" resultMap="SystemUserResult">
+	<select id="selectUserList" parameterType="com.kanon.framework.system.entity.SystemUser" resultMap="SystemUserResult">
 		select u.id, u.user_id, u.user_name, u.user_type, u.email, u.avatar, u.phonenumber, u.password,u.description,
 			   u.email_flag,u.phone_flag,u.score, u.sex, u.salt, u.status, u.del_flag, u.login_ip, u.login_date,
 			   u.create_by, u.create_time, u.remark, u.last_login_time from tb_system_user u
@@ -74,7 +74,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		${params.dataScope}
 	</select>
 	
-	<select id="selectAllocatedList" parameterType="SystemUser" resultMap="SystemUserResult">
+	<select id="selectAllocatedList" parameterType="com.kanon.framework.system.entity.SystemUser" resultMap="SystemUserResult">
 	    select distinct u.id, u.user_id, u.user_name, u.user_type, u.email, u.avatar, u.phonenumber, u.status, u.create_time
 	    from tb_system_user u
 			 left join tb_system_user_role ur on u.id = ur.user_id
@@ -90,7 +90,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		${params.dataScope}
 	</select>
 	
-	<select id="selectUnallocatedList" parameterType="SystemUser" resultMap="SystemUserResult">
+	<select id="selectUnallocatedList" parameterType="com.kanon.framework.system.entity.SystemUser" resultMap="SystemUserResult">
 	    select distinct u.id, u.user_id, u.user_name, u.user_type, u.email, u.avatar, u.phonenumber, u.status, u.create_time
 	    from tb_system_user u
 			 left join tb_system_user_role ur on u.id = ur.user_id
@@ -150,7 +150,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach> 
  	</delete>
  	
- 	<update id="updateUser" parameterType="SystemUser">
+ 	<update id="updateUser" parameterType="com.kanon.framework.system.entity.SystemUser">
  		update tb_system_user
  		<set>
  			<if test="userId != null and userId != ''">user_id = #{userId},</if>
@@ -180,7 +180,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  		where id = #{id}
 	</update>
  	
- 	<insert id="insertUser" parameterType="SystemUser" useGeneratedKeys="true" keyProperty="id">
+ 	<insert id="insertUser" parameterType="com.kanon.framework.system.entity.SystemUser" useGeneratedKeys="true" keyProperty="id">
  		insert into tb_system_user(
  			<if test="id != null and id != 0">id,</if>
  			<if test="userId != null and userId != ''">user_id,</if>

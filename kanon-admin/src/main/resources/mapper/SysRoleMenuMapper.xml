@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kanon.admin.mapper.SysRoleMenuMapper">
 
-	<resultMap type="SystemRoleMenu" id="SystemRoleMenuResult">
+	<resultMap type="com.kanon.admin.entity.SystemRoleMenu" id="SystemRoleMenuResult">
 		<result property="roleId"     column="role_id"      />
 		<result property="menuId"     column="menu_id"      />
 	</resultMap>

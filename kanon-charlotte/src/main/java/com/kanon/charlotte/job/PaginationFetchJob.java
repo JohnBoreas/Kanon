@@ -1,10 +1,10 @@
 package com.kanon.charlotte.job;
 
 import com.kanon.charlotte.constants.SpiderConstants;
-import com.kanon.charlotte.entity.PageResults;
+import com.kanon.charlotte.common.SpiderPageResult;
 import com.kanon.charlotte.entity.SpiderExplainStringDto;
 import com.kanon.charlotte.entity.SpiderPersistenceConfigDto;
-import com.kanon.charlotte.entity.SpiderSourceDto;
+import com.kanon.charlotte.entity.SpiderSource;
 import com.kanon.charlotte.param.PersistenceParam;
 import com.kanon.charlotte.param.SpiderParam;
 import com.kanon.charlotte.service.explain.ExplainStringService;
@@ -71,7 +71,7 @@ public class PaginationFetchJob extends AbstractJob {
          */
         //获取JobDetail中传递的参数
         log.info(spiderSource + "Fetch Start");
-        SpiderSourceDto sourceDto = spiderSourceDao.selectBySource(spiderSource);
+        SpiderSource sourceDto = spiderSourceDao.selectBySource(spiderSource);
 
         SpiderPersistenceConfigDto spiderPersistenceConfigDto = spiderPersistenceConfigDao.selectBySource(spiderSource);
         // 解析
@@ -82,7 +82,7 @@ public class PaginationFetchJob extends AbstractJob {
         SpiderParam param = new SpiderParam();
         param.setSpiderSource(spiderSource);
         param.setReqUrl(sourceDto.getReqUrl());
-        param.setNeedProxy(sourceDto.isNeedProxy());
+        param.setNeedProxy(sourceDto.needProxy());
         // 支持 {offset} {pageNo}
         param.setReqParam(sourceDto.getReqParam());
         param.setReqMethod(sourceDto.getReqMethod());
@@ -105,22 +105,22 @@ public class PaginationFetchJob extends AbstractJob {
                 Thread.sleep(1000);
                 ExplainStringService explainStringDao = (ExplainStringService) explainStrategyService.strategy(param);
                 PersistenceDataService persistenceDataService = (PersistenceDataService) persistenceStrategyService.strategy(param);
-                PageResults<Map<String, String>> pageResults = explainStringDao.explainPage(dtoMap, content);
-                if (pageResults != null && pageResults.getErrorMsg() == null) {
-                    total = pageResults.getTotal();
+                SpiderPageResult<Map<String, String>> spiderPageResult = explainStringDao.explainPage(dtoMap, content);
+                if (spiderPageResult != null && spiderPageResult.getErrorMsg() == null) {
+                    total = spiderPageResult.getTotal();
                     // hashNext
-                    if (pageResults.getHashNext() != null) {
-                        hasNext = pageResults.getHashNext();
+                    if (spiderPageResult.getHashNext() != null) {
+                        hasNext = spiderPageResult.getHashNext();
                     }
                     // 获取总页数
                     if (total > 1) {
                         pageCount = total % pageSize == 0 ? total / pageSize : total / pageSize + 1;
                     }
-                    if (pageResults.getPageCount() != null) {
-                        pageCount = pageResults.getPageCount();
+                    if (spiderPageResult.getPageCount() != null) {
+                        pageCount = spiderPageResult.getPageCount();
                     }
                     // 记录连续无数据次数
-                    if (pageResults.getResults() == null || pageResults.getResults().isEmpty()) {
+                    if (spiderPageResult.getResults() == null || spiderPageResult.getResults().isEmpty()) {
                         noDataCount ++;
                     } else {
                         noDataCount = 0;
@@ -130,13 +130,13 @@ public class PaginationFetchJob extends AbstractJob {
                         persistenceParam.setTableName(spiderPersistenceConfigDto.getTableName());
                         persistenceParam.setInsertField(spiderPersistenceConfigDto.getInsertField());
                         persistenceParam.setUpdateField(spiderPersistenceConfigDto.getUpdateField());
-                        persistenceParam.setPageResults(pageResults);
+                        persistenceParam.setSpiderPageResult(spiderPageResult);
                         persistenceDataService.save(persistenceParam);
                     }
                 } else {
                     log.error("抓取失败" + spiderSource + ", page :" + page);
                 }
-                log.info(spiderSource + " Fetch, page : " + page + ", code : " + (pageResults.getErrorMsg() != null ? pageResults.getErrorMsg() : pageResults.getCode()));
+                log.info(spiderSource + " Fetch, page : " + page + ", code : " + (spiderPageResult.getErrorMsg() != null ? spiderPageResult.getErrorMsg() : spiderPageResult.getCode()));
             } catch (Exception e) {
                 log.error(spiderSource + " Fetch Error, page:" + page, e);
             }

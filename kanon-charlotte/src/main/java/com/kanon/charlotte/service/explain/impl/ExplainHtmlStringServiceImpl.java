@@ -1,9 +1,9 @@
 package com.kanon.charlotte.service.explain.impl;
 
-import com.kanon.charlotte.entity.Results;
+import com.kanon.charlotte.common.SpiderResult;
 import com.kanon.charlotte.entity.SpiderExplainStringDto;
 import com.kanon.charlotte.service.explain.ExplainStringService;
-import com.kanon.charlotte.entity.PageResults;
+import com.kanon.charlotte.common.SpiderPageResult;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -16,7 +16,7 @@ import java.util.Map;
 public class ExplainHtmlStringServiceImpl implements ExplainStringService {
 
     @Override
-    public Results<Map<String, String>> explain(Map<String, SpiderExplainStringDto> dtoMap, String content) {
+    public SpiderResult<Map<String, String>> explain(Map<String, SpiderExplainStringDto> dtoMap, String content) {
         if (dtoMap != null) {
 
         }
@@ -24,7 +24,7 @@ public class ExplainHtmlStringServiceImpl implements ExplainStringService {
     }
 
     @Override
-    public PageResults<Map<String, String>> explainPage(Map<String, SpiderExplainStringDto> dtoMap, String content) {
+    public SpiderPageResult<Map<String, String>> explainPage(Map<String, SpiderExplainStringDto> dtoMap, String content) {
         return null;
     }
 }

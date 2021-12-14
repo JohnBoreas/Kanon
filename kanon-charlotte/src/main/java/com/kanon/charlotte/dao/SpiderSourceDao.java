@@ -1,6 +1,6 @@
 package com.kanon.charlotte.dao;
 
-import com.kanon.charlotte.entity.SpiderSourceDto;
+import com.kanon.charlotte.entity.SpiderSource;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -26,6 +26,6 @@ public interface SpiderSourceDao {
             "create_time AS createTime,  " +
             "update_time AS updateTime " +
             "FROM tb_spider_source WHERE spider_source = #{spiderSource} LIMIT 1")
-    SpiderSourceDto selectBySource(@Param("spiderSource") String spiderSource);
+    SpiderSource selectBySource(@Param("spiderSource") String spiderSource);
 
 }

@@ -1,11 +1,11 @@
-package com.kanon.charlotte.entity;
+package com.kanon.charlotte.common;
 
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class PageResults<T> {
+public class SpiderPageResult<T> {
 
     private Boolean hashNext;// 是否有下一页
 
@@ -21,8 +21,8 @@ public class PageResults<T> {
 
     private Boolean apiOutLimit;// api是否超过次数
 
-    public static <T> PageResults<T> emptyResult() {
-        return new PageResults<>();
+    public static <T> SpiderPageResult<T> emptyResult() {
+        return new SpiderPageResult<>();
     }
 
     private String errorMsg;// 抓取失败原因

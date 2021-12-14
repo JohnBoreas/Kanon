@@ -5,6 +5,7 @@ import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import com.alibaba.druid.spring.boot.autoconfigure.properties.DruidStatProperties;
 import com.alibaba.druid.util.Utils;
 import com.kanon.framework.datasource.DynamicDataSource;
+import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -13,6 +14,9 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.servlet.*;
 import javax.sql.DataSource;
@@ -60,15 +64,33 @@ public class DynamicDataSourceConfig {
      */
     @Bean(name = "dynamicDataSource")
     public DataSource dataSource(@Autowired @Qualifier("masterDataSource") DataSource master,
-                                 @Autowired @Qualifier("spiderDataSource") DataSource spider) {
+                                 @Autowired @Qualifier("spiderDataSource") DataSource spider,
+                                 @Autowired @Qualifier("wealthDataSource") DataSource wealth) {
         // 配置多数据源
         Map<Object, Object> dsMap = new HashMap<>(2 << 3);
         dsMap.put("masterDataSource", master);
-        dsMap.put("slaveDataSource", spider);
+        dsMap.put("spiderDataSource", spider);
+        dsMap.put("wealthDataSource", wealth);
         return new DynamicDataSource(master, dsMap);
     }
 
 
+    @Bean(name = "sqlSessionFactoryBean")
+    public SqlSessionFactoryBean sqlSessionFactoryBean(@Autowired @Qualifier("dynamicDataSource") DataSource dynamicDataSource) throws Exception {
+        SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
+        // 配置数据源，此处配置为关键配置，如果没有将 dynamicDataSource 作为数据源则不能实现切换
+        sessionFactory.setDataSource(dynamicDataSource);
+        sessionFactory.setTypeAliasesPackage("com.kanon.**.entity");    // 扫描Model
+        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        sessionFactory.setMapperLocations(resolver.getResources("classpath*:mapper/**/*Mapper.xml"));    // 扫描映射文件
+        return sessionFactory;
+    }
+
+    @Bean(name = "transactionManager")
+    public PlatformTransactionManager transactionManager(@Autowired @Qualifier("dynamicDataSource") DataSource dynamicDataSource) {
+        // 配置事务管理, 使用事务时在方法头部添加@Transactional注解即可
+        return new DataSourceTransactionManager(dynamicDataSource);
+    }
     /**
      * 去除监控页面底部的广告
      */

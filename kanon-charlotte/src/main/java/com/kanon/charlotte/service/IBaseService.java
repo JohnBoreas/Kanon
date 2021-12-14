@@ -1,7 +1,5 @@
 package com.kanon.charlotte.service;
 
-import org.springframework.data.domain.Page;
-
 import java.util.List;
 
 /**
@@ -18,7 +16,7 @@ public interface IBaseService<T> {
      * @param model
      * @return
      */
-    Page<T> selectPage(int start, int limit, T model);
+//    Page<T> selectPage(int start, int limit, T model);
     /**
      * 根据条件查询角色
      * @param model

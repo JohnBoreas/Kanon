@@ -1,4 +1,4 @@
-package com.kanon.charlotte.entity;
+package com.kanon.charlotte.common;
 
 import lombok.Data;
 
@@ -7,7 +7,7 @@ import lombok.Data;
  * @date 2021/6/24 17:03
  */
 @Data
-public class Results<T> {
+public class SpiderResult<T> {
 
     private String errorMsg;// 抓取失败原因
 
@@ -15,7 +15,7 @@ public class Results<T> {
 
     private T results;// List
 
-    public static <T> Results<T> emptyResult() {
-        return new Results<>();
+    public static <T> SpiderResult<T> emptyResult() {
+        return new SpiderResult<>();
     }
 }

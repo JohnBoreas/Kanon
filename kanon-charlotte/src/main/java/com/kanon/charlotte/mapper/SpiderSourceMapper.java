@@ -1,10 +1,18 @@
-package com.kanon.charlotte.service.charlotte;
+package com.kanon.charlotte.mapper;
 
 import com.kanon.charlotte.entity.SpiderSource;
+import com.kanon.common.annotation.DataSource;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface SpiderSourceService {
+/**
+ * @author xuhua.jiang
+ * @date 2021/12/13 15:17
+ */
+@DataSource(value = "spiderDataSource")
+public interface SpiderSourceMapper {
 
     /**
      * 查询请求来源配置
@@ -33,10 +41,18 @@ public interface SpiderSourceService {
     /**
      * 修改请求来源配置
      *
-     * @param spiderSource 请求来源配置
+     * @param tbSpiderSource 请求来源配置
      * @return 结果
      */
-    public int updateSpiderSource(SpiderSource spiderSource);
+    public int updateSpiderSource(SpiderSource tbSpiderSource);
+
+    /**
+     * 删除请求来源配置
+     *
+     * @param id 请求来源配置ID
+     * @return 结果
+     */
+    public int deleteSpiderSourceById(Long id);
 
     /**
      * 批量删除请求来源配置
@@ -44,13 +60,5 @@ public interface SpiderSourceService {
      * @param ids 需要删除的数据ID
      * @return 结果
      */
-    public int deleteSpiderSourceByIds(String ids);
-
-    /**
-     * 删除请求来源配置信息
-     *
-     * @param id 请求来源配置ID
-     * @return 结果
-     */
-    public int deleteSpiderSourceById(Long id);
+    public int deleteSpiderSourceByIds(String[] ids);
 }

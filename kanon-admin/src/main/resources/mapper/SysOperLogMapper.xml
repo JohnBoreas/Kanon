@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kanon.admin.mapper.SysOperLogMapper">
 
-	<resultMap type="SystemOperateLog" id="SystemOperateLogResult">
+	<resultMap type="com.kanon.framework.system.entity.SystemOperateLog" id="SystemOperateLogResult">
 		<id     property="id"         	  column="id"        	  />
 		<result property="title"          column="title"          />
 		<result property="businessType"   column="business_type"  />
@@ -27,12 +27,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from tb_system_operate_log
     </sql>
     
-	<insert id="insertOperlog" parameterType="SystemOperateLog">
+	<insert id="insertOperlog" parameterType="com.kanon.framework.system.entity.SystemOperateLog">
 		insert into tb_system_operate_log(title, business_type, method, request_method, operator_type, oper_name, oper_url, oper_ip, oper_location, oper_param, json_result, status, error_msg, oper_time)
         values (#{title}, #{businessType}, #{method}, #{requestMethod}, #{operatorType}, #{operName}, #{operUrl}, #{operIp}, #{operLocation}, #{operParam}, #{jsonResult}, #{status}, #{errorMsg}, sysdate())
 	</insert>
 	
-	<select id="selectOperLogList" parameterType="SystemOperateLog" resultMap="SystemOperateLogResult">
+	<select id="selectOperLogList" parameterType="com.kanon.framework.system.entity.SystemOperateLog" resultMap="SystemOperateLogResult">
 		<include refid="selectOperLogVo"/>
 		<where>
 			<if test="title != null and title != ''">

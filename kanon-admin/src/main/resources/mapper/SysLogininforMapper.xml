@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kanon.admin.mapper.SysLoginInfoMapper">
 
-	<resultMap type="SystemLoginInfo" id="SystemLoginInfoResult">
+	<resultMap type="com.kanon.framework.system.entity.SystemLoginInfo" id="SystemLoginInfoResult">
 		<id     property="id"        column="id"           />
 		<result property="userId"     column="user_id"        />
 		<result property="status"        column="status"            />
@@ -16,12 +16,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="loginTime"     column="login_time"        />
 	</resultMap>
 
-	<insert id="insertLogininfor" parameterType="SystemLoginInfo">
+	<insert id="insertLogininfor" parameterType="com.kanon.framework.system.entity.SystemLoginInfo">
 		insert into tb_system_login_info (user_id, status, ip_addr, login_location, browser, os, msg, login_time)
 		values (#{userId}, #{status}, #{ipAddr}, #{loginLocation}, #{browser}, #{os}, #{msg}, sysdate())
 	</insert>
 	
-	<select id="selectLogininforList" parameterType="SystemLoginInfo" resultMap="SystemLoginInfoResult">
+	<select id="selectLogininforList" parameterType="com.kanon.framework.system.entity.SystemLoginInfo" resultMap="SystemLoginInfoResult">
 		select info_id,user_id,ip_addr,login_location,browser,os,status,msg,login_time from tb_system_login_info
 		<where>
 			<if test="ipAddr != null and ipAddr != ''">

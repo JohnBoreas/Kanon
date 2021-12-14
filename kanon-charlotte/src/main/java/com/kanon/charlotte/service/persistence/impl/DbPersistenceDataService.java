@@ -2,7 +2,7 @@ package com.kanon.charlotte.service.persistence.impl;
 
 import com.kanon.charlotte.param.PersistenceParam;
 import com.kanon.charlotte.service.persistence.PersistenceDataService;
-import com.kanon.charlotte.util.JdbcTemplateUtils;
+import com.kanon.common.db.JdbcTemplateUtils;
 import com.kanon.charlotte.util.StructureChangeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -33,7 +33,7 @@ public class DbPersistenceDataService implements PersistenceDataService {
     @Override
     public Integer save(PersistenceParam param) {
         String table = param.getTableName();
-        List<Map<String, String>> results = param.getPageResults().getResults();
+        List<Map<String, String>> results = param.getSpiderPageResult().getResults();
         int re = 0;
         if (results != null) {
             Map<String, String> insertData = StructureChangeUtils.stringToMap(param.getInsertField());

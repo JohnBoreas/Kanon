@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kanon.admin.mapper.SysUserOnlineMapper">
 
-	<resultMap type="SystemUserOnline" id="SystemUserOnlineResult">
+	<resultMap type="com.kanon.framework.system.entity.SystemUserOnline" id="SystemUserOnlineResult">
 		<id     property="sessionId"         column="sessionId"         />
 		<result property="userId"         column="user_id"        />
 		<result property="ipAddr"            column="ip_addr"            />
@@ -27,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where sessionid = #{sessionid}
 	</select>
 
-	<insert id="saveOnline" parameterType="SystemUserOnline">
+	<insert id="saveOnline" parameterType="com.kanon.framework.system.entity.SystemUserOnline">
 		replace into tb_system_user_online(sessionId, user_id, ip_addr, login_location, browser, os, status, start_timestamp, last_access_time, expire_time)
         values (#{sessionId}, #{userId}, #{ipAddr}, #{loginLocation}, #{browser}, #{os}, #{status}, #{startTimestamp}, #{lastAccessTime}, #{expireTime})
 	</insert>
@@ -36,7 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  		delete from tb_system_user_online where sessionId = #{sessionId}
  	</delete>
  	
- 	<select id="selectUserOnlineList" parameterType="SystemUserOnline" resultMap="SystemUserOnlineResult">
+ 	<select id="selectUserOnlineList" parameterType="com.kanon.framework.system.entity.SystemUserOnline" resultMap="SystemUserOnlineResult">
 		<include refid="selectOnlineVo"/>
 		<where>
 			<if test="ipAddr != null and ipAddr != ''">

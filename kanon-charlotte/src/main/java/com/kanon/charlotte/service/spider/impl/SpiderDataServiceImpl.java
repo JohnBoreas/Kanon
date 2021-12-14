@@ -4,15 +4,15 @@ import com.kanon.charlotte.constants.SpiderConstants;
 import com.kanon.charlotte.dao.SpiderExplainDao;
 import com.kanon.charlotte.dao.SpiderRequestDao;
 import com.kanon.charlotte.dao.SpiderSourceDao;
-import com.kanon.charlotte.entity.PageResults;
+import com.kanon.charlotte.common.SpiderPageResult;
 import com.kanon.charlotte.entity.SpiderExplainStringDto;
 import com.kanon.charlotte.entity.SpiderRequestDto;
-import com.kanon.charlotte.entity.SpiderSourceDto;
+import com.kanon.charlotte.entity.SpiderSource;
 import com.kanon.charlotte.param.SpiderParam;
 import com.kanon.charlotte.service.StrategyService;
 import com.kanon.charlotte.service.explain.ExplainStringService;
 import com.kanon.charlotte.service.spider.SpiderDataService;
-import com.kanon.charlotte.util.HttpClientUtils;
+import com.kanon.common.http.httpclient.HttpClientUtils;
 import com.kanon.charlotte.util.StructureChangeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -111,8 +111,8 @@ public class SpiderDataServiceImpl implements SpiderDataService {
             String content = originalContent(param);
             ExplainStringService explainStringDao = (ExplainStringService) explainStrategyService.strategy(param);
             // 解析数据
-            PageResults<Map<String, String>> pageResults = explainStringDao.explainPage(dtoMap, content);
-            return pageResults;
+            SpiderPageResult<Map<String, String>> spiderPageResult = explainStringDao.explainPage(dtoMap, content);
+            return spiderPageResult;
         } catch (Exception e) {
             log.error(spiderSource + " Fetch Error", e);
         }
@@ -122,11 +122,11 @@ public class SpiderDataServiceImpl implements SpiderDataService {
     private void setSpiderParam(SpiderParam param) {
         // 参数中缺少相应的参数则查db获取
         if (StringUtils.isEmpty(param.getReqUrl())) {
-            SpiderSourceDto sourceDto = spiderSourceDao.selectBySource(param.getSpiderSource());
+            SpiderSource sourceDto = spiderSourceDao.selectBySource(param.getSpiderSource());
             // 初始化抓取参数
             param.setSpiderSource(param.getSpiderSource());
             param.setReqUrl(sourceDto.getReqUrl());
-            param.setNeedProxy(sourceDto.isNeedProxy());
+            param.setNeedProxy(sourceDto.needProxy());
             // 支持 {offset} {pageNo}
             param.setReqParam(sourceDto.getReqParam());
             param.setReqMethod(sourceDto.getReqMethod());

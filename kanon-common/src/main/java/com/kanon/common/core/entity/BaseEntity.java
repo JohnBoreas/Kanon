@@ -1,6 +1,7 @@
 package com.kanon.common.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -29,6 +30,7 @@ public class BaseEntity implements Serializable {
     /**
      * 创建时间
      */
+    @SerializedName("create_time")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
@@ -40,6 +42,7 @@ public class BaseEntity implements Serializable {
     /**
      * 更新时间
      */
+    @SerializedName("update_time")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 

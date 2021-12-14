@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('请求来源配置列表')" />
+</head>
+<body class="gray-bg">
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <form id="formId">
+                <div class="select-list">
+                    <ul>
+                        <li>
+                            <label>数据来源名称 ：</label>
+                            <input type="text" name="spiderSource"/>
+                        </li>
+                        <li>
+                            <label>请求描述：</label>
+                            <input type="text" name="sourceDes"/>
+                        </li>
+                        <li>
+                            <label>请求方法：</label>
+                            <input type="text" name="reqMethod"/>
+                        </li>
+                        <li>
+                            <label>数据类型：</label>
+                            <select name="dataType">
+                                <option value="">所有</option>
+                                <option value="-1">代码生成请选择字典属性</option>
+                            </select>
+                        </li>
+                        <li>
+                            <label>是否分页，0-不分页;1-分页：</label>
+                            <input type="text" name="isPage"/>
+                        </li>
+                        <li>
+                            <label>字符集：</label>
+                            <input type="text" name="charset"/>
+                        </li>
+                        <li>
+                            <label>是否需要代理ip，0-不需要;1-需要：</label>
+                            <input type="text" name="needProxy"/>
+                        </li>
+                        <li>
+                            <label>是否需要cookie，0-不需要;1-需要：</label>
+                            <input type="text" name="needCookie"/>
+                        </li>
+                        <li>
+                            <label>是否需要token认证信息，0-不需要;1-需要：</label>
+                            <input type="text" name="needToken"/>
+                        </li>
+                        <li>
+                            <label>cookie是否过期，0-未过期;1-过期：</label>
+                            <input type="text" name="isLastCookie"/>
+                        </li>
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i> 搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i> 重置</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+
+        <div class="btn-group-sm" id="toolbar" role="group">
+            <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:source:add">
+                <i class="fa fa-plus"></i> 添加
+            </a>
+            <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:source:edit">
+                <i class="fa fa-edit"></i> 修改
+            </a>
+            <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:source:remove">
+                <i class="fa fa-remove"></i> 删除
+            </a>
+            <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:source:export">
+                <i class="fa fa-download"></i> 导出
+            </a>
+        </div>
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table"></table>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer" />
+<script th:inline="javascript">
+    var editFlag = [[${@permission.hasPermi('system:source:edit')}]];
+    var removeFlag = [[${@permission.hasPermi('system:source:remove')}]];
+    var prefix = ctx + "spider/source";
+
+    $(function() {
+        var options = {
+            url: prefix + "/list",
+            createUrl: prefix + "/add",
+            updateUrl: prefix + "/edit/{id}",
+            removeUrl: prefix + "/remove",
+            exportUrl: prefix + "/export",
+            modalName: "请求来源配置",
+            columns: [{
+                    checkbox: true
+                }, {
+                    field: 'id',
+                    title: '自增id',
+                    visible: false
+                }, {
+                    field: 'spiderSource',
+                    title: '数据来源名称 '
+                }, {
+                    field: 'sourceDes',
+                    title: '请求描述'
+                }, {
+                    field: 'reqUrl',
+                    title: '请求URL'
+                }, {
+                    field: 'reqMethod',
+                    title: '请求方法'
+                }, {
+                    field: 'reqParam',
+                    title: '请求参数'
+                }, {
+                    field: 'dataType',
+                    title: '数据类型'
+                }, {
+                    field: 'isPage',
+                    title: '是否分页，0-不分页;1-分页'
+                }, {
+                    field: 'charset',
+                    title: '字符集'
+                }, {
+                    field: 'needProxy',
+                    title: '是否需要代理ip，0-不需要;1-需要'
+                }, {
+                    field: 'needCookie',
+                    title: '是否需要cookie，0-不需要;1-需要'
+                }, {
+                    field: 'needToken',
+                    title: '是否需要token认证信息，0-不需要;1-需要'
+                }, {
+                    field: 'isLastCookie',
+                    title: 'cookie是否过期，0-未过期;1-过期'
+                }, {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+        };
+        $.table.init(options);
+    });
+</script>
+</body>
+</html>

@@ -1,7 +1,5 @@
 package com.kanon.common.annotation;
 
-import com.kanon.common.enums.DataSourceType;
-
 import java.lang.annotation.*;
 
 /**
