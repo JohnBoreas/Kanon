@@ -5,8 +5,8 @@ import com.kanon.charlotte.dao.SpiderExplainDao;
 import com.kanon.charlotte.dao.SpiderRequestDao;
 import com.kanon.charlotte.dao.SpiderSourceDao;
 import com.kanon.charlotte.common.SpiderPageResult;
-import com.kanon.charlotte.entity.SpiderExplainStringDto;
-import com.kanon.charlotte.entity.SpiderRequestDto;
+import com.kanon.charlotte.entity.SpiderExplain;
+import com.kanon.charlotte.entity.SpiderRequest;
 import com.kanon.charlotte.entity.SpiderSource;
 import com.kanon.charlotte.param.SpiderParam;
 import com.kanon.charlotte.service.StrategyService;
@@ -60,7 +60,7 @@ public class SpiderDataServiceImpl implements SpiderDataService {
         // 设置参数
         setSpiderParam(param);
         // 获取request
-        List<SpiderRequestDto> requestDtoList = spiderRequestDao.selectBySource(param.getSpiderSource());
+        List<SpiderRequest> requestDtoList = spiderRequestDao.selectBySource(param.getSpiderSource());
         // header map
         Map<String, String> headersParams = new HashMap<>();
         requestDtoList.stream().forEach(dto -> {
@@ -105,8 +105,8 @@ public class SpiderDataServiceImpl implements SpiderDataService {
             // 设置参数
             setSpiderParam(param);
             // 解析
-            List<SpiderExplainStringDto> explainStringDtoList = spiderExplainDao.selectBySource(spiderSource);
-            Map<String, SpiderExplainStringDto> dtoMap = explainStringDtoList.stream().collect(Collectors.toMap(SpiderExplainStringDto::getExplainName, Function.identity()));
+            List<SpiderExplain> explainStringDtoList = spiderExplainDao.selectBySource(spiderSource);
+            Map<String, SpiderExplain> dtoMap = explainStringDtoList.stream().collect(Collectors.toMap(SpiderExplain::getExplainName, Function.identity()));
 
             String content = originalContent(param);
             ExplainStringService explainStringDao = (ExplainStringService) explainStrategyService.strategy(param);

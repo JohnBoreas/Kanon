@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kanon.charlotte.mapper.SpiderExplainMapper">
+
+    <resultMap type="com.kanon.charlotte.entity.SpiderExplain" id="SpiderExplainResult">
+        <result property="id"    column="id"    />
+        <result property="spiderSource"    column="spider_source"    />
+        <result property="explainName"    column="explain_name"    />
+        <result property="explainValue"    column="explain_value"    />
+        <result property="valueType"    column="value_type"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectSpiderExplainVo">
+        select id, spider_source, explain_name, explain_value, value_type, create_time, update_time from tb_spider_explain_string
+    </sql>
+
+    <select id="selectSpiderExplainList" parameterType="com.kanon.charlotte.entity.SpiderExplain" resultMap="SpiderExplainResult">
+        <include refid="selectSpiderExplainVo"/>
+        <where>
+            <if test="spiderSource != null  and spiderSource != ''"> and spider_source = #{spiderSource}</if>
+            <if test="explainName != null  and explainName != ''"> and explain_name like concat('%', #{explainName}, '%')</if>
+            <if test="explainValue != null  and explainValue != ''"> and explain_value = #{explainValue}</if>
+            <if test="valueType != null  and valueType != ''"> and value_type = #{valueType}</if>
+        </where>
+    </select>
+
+    <select id="selectSpiderExplainById" parameterType="Long" resultMap="SpiderExplainResult">
+        <include refid="selectSpiderExplainVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSpiderExplain" parameterType="com.kanon.charlotte.entity.SpiderExplain" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_spider_explain_string
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="spiderSource != null and spiderSource != ''">spider_source,</if>
+            <if test="explainName != null">explain_name,</if>
+            <if test="explainValue != null">explain_value,</if>
+            <if test="valueType != null">value_type,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="spiderSource != null and spiderSource != ''">#{spiderSource},</if>
+            <if test="explainName != null">#{explainName},</if>
+            <if test="explainValue != null">#{explainValue},</if>
+            <if test="valueType != null">#{valueType},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSpiderExplain" parameterType="com.kanon.charlotte.entity.SpiderExplain">
+        update tb_spider_explain_string
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="spiderSource != null and spiderSource != ''">spider_source = #{spiderSource},</if>
+            <if test="explainName != null">explain_name = #{explainName},</if>
+            <if test="explainValue != null">explain_value = #{explainValue},</if>
+            <if test="valueType != null">value_type = #{valueType},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSpiderExplainById" parameterType="Long">
+        delete from tb_spider_explain_string where id = #{id}
+    </delete>
+
+    <delete id="deleteSpiderExplainByIds" parameterType="String">
+        delete from tb_spider_explain_string where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,6 +1,6 @@
 package com.kanon.charlotte.dao;
 
-import com.kanon.charlotte.entity.SpiderRequestDto;
+import com.kanon.charlotte.entity.SpiderRequest;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -18,6 +18,6 @@ public interface SpiderRequestDao {
     @Select("SELECT header_name AS headerName, " +
             "header_value AS headerValue " +
             "FROM tb_spider_request WHERE spider_source = #{spiderSource}")
-    List<SpiderRequestDto> selectBySource(@Param("spiderSource") String spiderSource);
+    List<SpiderRequest> selectBySource(@Param("spiderSource") String spiderSource);
 
 }

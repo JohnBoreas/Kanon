@@ -2,8 +2,8 @@ package com.kanon.charlotte.job;
 
 import com.kanon.charlotte.constants.SpiderConstants;
 import com.kanon.charlotte.common.SpiderPageResult;
-import com.kanon.charlotte.entity.SpiderExplainStringDto;
-import com.kanon.charlotte.entity.SpiderPersistenceConfigDto;
+import com.kanon.charlotte.entity.SpiderExplain;
+import com.kanon.charlotte.entity.SpiderPersistence;
 import com.kanon.charlotte.entity.SpiderSource;
 import com.kanon.charlotte.param.PersistenceParam;
 import com.kanon.charlotte.param.SpiderParam;
@@ -73,11 +73,11 @@ public class PaginationFetchJob extends AbstractJob {
         log.info(spiderSource + "Fetch Start");
         SpiderSource sourceDto = spiderSourceDao.selectBySource(spiderSource);
 
-        SpiderPersistenceConfigDto spiderPersistenceConfigDto = spiderPersistenceConfigDao.selectBySource(spiderSource);
+        SpiderPersistence spiderPersistence = spiderPersistenceConfigDao.selectBySource(spiderSource);
         // 解析
-        List<SpiderExplainStringDto> explainStringDtoList = spiderExplainDao.selectBySource(spiderSource);
+        List<SpiderExplain> explainStringDtoList = spiderExplainDao.selectBySource(spiderSource);
 
-        Map<String, SpiderExplainStringDto> dtoMap = explainStringDtoList.stream().collect(Collectors.toMap(SpiderExplainStringDto::getExplainName, Function.identity()));
+        Map<String, SpiderExplain> dtoMap = explainStringDtoList.stream().collect(Collectors.toMap(SpiderExplain::getExplainName, Function.identity()));
         // 初始化抓取参数
         SpiderParam param = new SpiderParam();
         param.setSpiderSource(spiderSource);
@@ -127,9 +127,9 @@ public class PaginationFetchJob extends AbstractJob {
                         // 数据处理
                         PersistenceParam persistenceParam = new PersistenceParam<Map<String, String>>();
                         persistenceParam.setSpiderSource(spiderSource);
-                        persistenceParam.setTableName(spiderPersistenceConfigDto.getTableName());
-                        persistenceParam.setInsertField(spiderPersistenceConfigDto.getInsertField());
-                        persistenceParam.setUpdateField(spiderPersistenceConfigDto.getUpdateField());
+                        persistenceParam.setTableName(spiderPersistence.getTableName());
+                        persistenceParam.setInsertField(spiderPersistence.getInsertField());
+                        persistenceParam.setUpdateField(spiderPersistence.getUpdateField());
                         persistenceParam.setSpiderPageResult(spiderPageResult);
                         persistenceDataService.save(persistenceParam);
                     }

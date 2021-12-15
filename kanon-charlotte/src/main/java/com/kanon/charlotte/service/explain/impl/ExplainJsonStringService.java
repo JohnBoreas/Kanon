@@ -5,7 +5,7 @@ import com.kanon.charlotte.constants.SpiderConstants;
 import com.kanon.charlotte.constants.ValueType;
 import com.kanon.charlotte.common.SpiderPageResult;
 import com.kanon.charlotte.common.SpiderResult;
-import com.kanon.charlotte.entity.SpiderExplainStringDto;
+import com.kanon.charlotte.entity.SpiderExplain;
 import com.kanon.charlotte.service.explain.ExplainStringService;
 import com.kanon.charlotte.util.DateUtils;
 import com.kanon.charlotte.util.JsonUtils;
@@ -21,7 +21,7 @@ import java.util.*;
 public class ExplainJsonStringService implements ExplainStringService {
 
     @Override
-    public SpiderResult<Map<String, String>> explain(Map<String, SpiderExplainStringDto> dtoMap, String content) {
+    public SpiderResult<Map<String, String>> explain(Map<String, SpiderExplain> dtoMap, String content) {
         //  mtopjsonp(........)
         SpiderResult<Map<String, String>> spiderResult = SpiderResult.emptyResult();
         if (content.contains("<html>")) {
@@ -42,7 +42,7 @@ public class ExplainJsonStringService implements ExplainStringService {
         String currentDate = DateUtils.getBeforeMinuteTimeStr(new Date(), 0, "yyyy-MM-dd");
         // 获取数据
         Map<String, String> resultMap = new HashMap<>();
-        for (Map.Entry<String, SpiderExplainStringDto> entry : dtoMap.entrySet()) {
+        for (Map.Entry<String, SpiderExplain> entry : dtoMap.entrySet()) {
             String explainValue = entry.getValue().getExplainValue();
             if (ValueType.COMMON.matches(entry.getValue().getValueType())) {
                 Object object = JsonUtils.getObject(explainValue, JSONObject.toJSONString(content));
@@ -58,7 +58,7 @@ public class ExplainJsonStringService implements ExplainStringService {
     }
 
     @Override
-    public SpiderPageResult<Map<String, String>> explainPage(Map<String, SpiderExplainStringDto> dtoMap, String content) {
+    public SpiderPageResult<Map<String, String>> explainPage(Map<String, SpiderExplain> dtoMap, String content) {
         //  mtopjsonp(........)
         SpiderPageResult<Map<String, String>> results = SpiderPageResult.emptyResult();
         if (content.contains("<html>")) {
@@ -89,7 +89,7 @@ public class ExplainJsonStringService implements ExplainStringService {
         String currentDate = DateUtils.getBeforeMinuteTimeStr(new Date(), 0, "yyyy-MM-dd");
         // 获取外部公共数据
         Map<String, String> commonValueMap = new HashMap<>();
-        for (Map.Entry<String, SpiderExplainStringDto> entry : dtoMap.entrySet()) {
+        for (Map.Entry<String, SpiderExplain> entry : dtoMap.entrySet()) {
             String explainValue = entry.getValue().getExplainValue();
             if (ValueType.COMMON.matches(entry.getValue().getValueType())) {
                 Object object = JsonUtils.getObject(explainValue, JSONObject.toJSONString(content));
@@ -106,7 +106,7 @@ public class ExplainJsonStringService implements ExplainStringService {
             for (int i = 0; i < contentList.size(); i++) {
                 // 一条数据
                 Map<String, String> resultMap = new HashMap<>();
-                for (Map.Entry<String, SpiderExplainStringDto> entry : dtoMap.entrySet()) {
+                for (Map.Entry<String, SpiderExplain> entry : dtoMap.entrySet()) {
                     // codeValue : data.code
                     String explainValue = entry.getValue().getExplainValue();
                     if (ValueType.LIST.matches(entry.getValue().getValueType()) && explainValue.length() > listValue.length()) {

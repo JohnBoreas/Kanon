@@ -6,29 +6,34 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+/**
+ * @author xuhua.jiang
+ * @date 2021/6/22 17:41
+ */
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class SpiderExplainStringDto extends BaseTime {
+public class SpiderPersistence extends BaseTime {
 
+    private Long id;
     /**
      * 数据来源名称
      */
     @SerializedName("spider_source")
     protected String spiderSource;
     /**
-     * explain
+     * 表名
      */
-    @SerializedName("explain_name")
-    protected String explainName;
+    @SerializedName("table_name")
+    protected String tableName;
     /**
-     * explain value
+     * 插入字段
      */
-    @SerializedName("explain_value")
-    protected String explainValue;
+    @SerializedName("insert_field")
+    protected String insertField;
     /**
-     * value
+     * 更新字段
      */
-    @SerializedName("value_type")
-    protected String valueType;
+    @SerializedName("update_field")
+    protected String updateField;
 }

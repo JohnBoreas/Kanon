@@ -9,21 +9,27 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class SpiderRequestDto extends BaseTime {
+public class SpiderExplain extends BaseTime {
 
+    private Long id;
     /**
      * 数据来源名称
      */
     @SerializedName("spider_source")
     protected String spiderSource;
     /**
-     * header
+     * explain
      */
-    @SerializedName("header_name")
-    protected String headerName;
+    @SerializedName("explain_name")
+    protected String explainName;
     /**
-     * header value
+     * explain value
      */
-    @SerializedName("header_value")
-    protected String headerValue;
+    @SerializedName("explain_value")
+    protected String explainValue;
+    /**
+     * value
+     */
+    @SerializedName("value_type")
+    protected String valueType;
 }

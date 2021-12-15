@@ -1,7 +1,7 @@
 package com.kanon.charlotte.util;
 
 import com.alibaba.fastjson.JSONObject;
-import com.kanon.charlotte.entity.spider.ScheduleJob;
+import com.kanon.charlotte.entity.ScheduleJob;
 import com.kanon.charlotte.param.SchedulerJobParam;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;

@@ -1,12 +1,16 @@
-package com.kanon.charlotte.service.charlotte;
+package com.kanon.charlotte.mapper;
 
 import com.kanon.charlotte.entity.SpiderExplain;
-import com.kanon.charlotte.param.SpiderParam;
+import com.kanon.common.annotation.DataSource;
 
 import java.util.List;
 
-public interface SpiderExplainService {
-
+/**
+ * @author xuhua.jiang
+ * @date 2021/12/15 16:03
+ */
+@DataSource(value = "spiderDataSource")
+public interface SpiderExplainMapper {
     /**
      * 查询返回内容解析规则配置
      *
@@ -40,18 +44,18 @@ public interface SpiderExplainService {
     public int updateSpiderExplain(SpiderExplain spiderExplain);
 
     /**
-     * 批量删除返回内容解析规则配置
-     *
-     * @param ids 需要删除的数据ID
-     * @return 结果
-     */
-    public int deleteSpiderExplainByIds(String ids);
-
-    /**
-     * 删除返回内容解析规则配置信息
+     * 删除返回内容解析规则配置
      *
      * @param id 返回内容解析规则配置ID
      * @return 结果
      */
     public int deleteSpiderExplainById(Long id);
+
+    /**
+     * 批量删除返回内容解析规则配置
+     *
+     * @param ids 需要删除的数据ID
+     * @return 结果
+     */
+    public int deleteSpiderExplainByIds(String[] ids);
 }

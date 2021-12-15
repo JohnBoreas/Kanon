@@ -1,7 +1,7 @@
-package com.kanon.charlotte.service.charlotte;
+package com.kanon.charlotte.mapper;
 
 import com.kanon.charlotte.entity.SpiderRequest;
-import com.kanon.charlotte.param.SpiderParam;
+import com.kanon.common.annotation.DataSource;
 
 import java.util.List;
 
@@ -9,7 +9,9 @@ import java.util.List;
  * @author xuhua.jiang
  * @date 2021/12/14 18:47
  */
-public interface SpiderRequestService {
+@DataSource(value = "spiderDataSource")
+public interface SpiderRequestMapper {
+
     /**
      * 查询请求request配置
      *
@@ -43,18 +45,18 @@ public interface SpiderRequestService {
     public int updateSpiderRequest(SpiderRequest spiderRequest);
 
     /**
-     * 批量删除请求request配置
-     *
-     * @param ids 需要删除的数据ID
-     * @return 结果
-     */
-    public int deleteSpiderRequestByIds(String ids);
-
-    /**
-     * 删除请求request配置信息
+     * 删除请求request配置
      *
      * @param id 请求request配置ID
      * @return 结果
      */
     public int deleteSpiderRequestById(Long id);
+
+    /**
+     * 批量删除请求request配置
+     *
+     * @param ids 需要删除的数据ID
+     * @return 结果
+     */
+    public int deleteSpiderRequestByIds(String[] ids);
 }

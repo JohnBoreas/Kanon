@@ -1,6 +1,6 @@
 package com.kanon.charlotte.dao;
 
-import com.kanon.charlotte.entity.SpiderPersistenceConfigDto;
+import com.kanon.charlotte.entity.SpiderPersistence;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -22,5 +22,5 @@ public interface SpiderPersistenceConfigDao {
             "insert_field AS insertField, " +
             "update_field AS updateField " +
             "FROM tb_spider_persistence_config WHERE spider_source = #{spiderSource} LIMIT 1")
-    SpiderPersistenceConfigDto selectBySource(@Param("spiderSource") String spiderSource);
+    SpiderPersistence selectBySource(@Param("spiderSource") String spiderSource);
 }

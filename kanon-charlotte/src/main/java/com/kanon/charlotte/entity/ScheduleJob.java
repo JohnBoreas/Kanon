@@ -1,4 +1,4 @@
-package com.kanon.charlotte.entity.spider;
+package com.kanon.charlotte.entity;
 
 import lombok.Data;
 import org.springframework.stereotype.Component;
