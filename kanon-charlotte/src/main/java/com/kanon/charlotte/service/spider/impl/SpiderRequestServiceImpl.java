@@ -1,10 +1,8 @@
-package com.kanon.charlotte.service.charlotte.impl;
+package com.kanon.charlotte.service.spider.impl;
 
-import com.kanon.charlotte.dao.SpiderRequestDao;
 import com.kanon.charlotte.entity.SpiderRequest;
 import com.kanon.charlotte.mapper.SpiderRequestMapper;
-import com.kanon.charlotte.param.SpiderParam;
-import com.kanon.charlotte.service.charlotte.SpiderRequestService;
+import com.kanon.charlotte.service.spider.SpiderRequestService;
 import com.kanon.common.core.text.Convert;
 import com.kanon.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;

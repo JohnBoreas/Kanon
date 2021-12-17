@@ -1,7 +1,7 @@
 package com.kanon.charlotte.controller;
 
 import com.kanon.charlotte.entity.SpiderExplain;
-import com.kanon.charlotte.service.charlotte.SpiderExplainService;
+import com.kanon.charlotte.service.spider.SpiderExplainService;
 import com.kanon.common.annotation.Log;
 import com.kanon.common.core.controller.BaseController;
 import com.kanon.common.core.entity.AjaxResult;

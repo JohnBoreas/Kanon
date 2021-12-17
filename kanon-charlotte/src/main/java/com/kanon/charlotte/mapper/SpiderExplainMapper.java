@@ -2,6 +2,8 @@ package com.kanon.charlotte.mapper;
 
 import com.kanon.charlotte.entity.SpiderExplain;
 import com.kanon.common.annotation.DataSource;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -9,6 +11,8 @@ import java.util.List;
  * @author xuhua.jiang
  * @date 2021/12/15 16:03
  */
+@Mapper
+@Repository
 @DataSource(value = "spiderDataSource")
 public interface SpiderExplainMapper {
     /**

@@ -1,6 +1,6 @@
 package com.kanon.charlotte.dao;
 
-import com.kanon.charlotte.param.SchedulerJobParam;
+import com.kanon.charlotte.param.SchedulerParam;
 import org.apache.ibatis.annotations.Insert;
 
 /**
@@ -16,5 +16,5 @@ public interface StockDatePriceDao {
             "#{lastPrice}, #{volume}, #{turnVolume}, #{priceEarningsRatio}, #{turnoverRate}, #{changeRate}, #{changePrice}, #{5dayPrice}, #{10dayPrice}, " +
             "#{20dayPrice}, #{30dayPrice}, #{60dayPrice}, now()) " })
 //    @Options(useGeneratedKeys=true, keyProperty="id")
-    Long insertJob(SchedulerJobParam param);
+    Long insertJob(SchedulerParam param);
 }

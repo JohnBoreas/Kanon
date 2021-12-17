@@ -11,6 +11,8 @@ import java.util.List;
  * @author xuhua.jiang
  * @date 2021/12/13 15:17
  */
+@Mapper
+@Repository
 @DataSource(value = "spiderDataSource")
 public interface SpiderSourceMapper {
 

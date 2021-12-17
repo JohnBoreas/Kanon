@@ -1,6 +1,6 @@
 package com.kanon.charlotte.controller;
 
-import com.kanon.charlotte.param.SchedulerJobParam;
+import com.kanon.charlotte.param.SchedulerParam;
 import com.kanon.charlotte.result.Result;
 import com.kanon.charlotte.spider.FetchOrgReportSpider;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +32,7 @@ public class SpiderSpecialSourceController {
      * @return
      */
     @RequestMapping(value = "/org")
-    public Result addJob(SchedulerJobParam param) throws Exception {
+    public Result addJob(SchedulerParam param) throws Exception {
         fetchOrgReportSpider.fetch();
         return Result.success(1);
     }

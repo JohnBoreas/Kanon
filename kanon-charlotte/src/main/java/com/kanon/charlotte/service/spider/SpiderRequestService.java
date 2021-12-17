@@ -1,7 +1,6 @@
-package com.kanon.charlotte.service.charlotte;
+package com.kanon.charlotte.service.spider;
 
 import com.kanon.charlotte.entity.SpiderRequest;
-import com.kanon.charlotte.param.SpiderParam;
 
 import java.util.List;
 

@@ -9,7 +9,7 @@ import java.util.Map;
  * @date 2021/6/8 18:18
  */
 @Data
-public class SchedulerJobParam {
+public class SchedulerParam {
 
 //    private Integer id;
     /**

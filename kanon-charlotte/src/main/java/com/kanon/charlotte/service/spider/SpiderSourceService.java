@@ -1,4 +1,4 @@
-package com.kanon.charlotte.service.charlotte;
+package com.kanon.charlotte.service.spider;
 
 import com.kanon.charlotte.entity.SpiderSource;
 

@@ -2,7 +2,7 @@ package com.kanon.charlotte.util;
 
 import com.alibaba.fastjson.JSONObject;
 import com.kanon.charlotte.entity.ScheduleJob;
-import com.kanon.charlotte.param.SchedulerJobParam;
+import com.kanon.charlotte.param.SchedulerParam;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.quartz.impl.JobDetailImpl;
@@ -123,7 +123,7 @@ public class ScheduleJobUtils {
      * 添加job
      * @param param
      */
-    public static Boolean addJob(SchedulerJobParam param) {
+    public static Boolean addJob(SchedulerParam param) {
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
         Class clazz = null;
         try {

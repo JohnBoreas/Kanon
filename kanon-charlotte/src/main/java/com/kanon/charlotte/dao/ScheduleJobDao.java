@@ -1,6 +1,6 @@
 package com.kanon.charlotte.dao;
 
-import com.kanon.charlotte.param.SchedulerJobParam;
+import com.kanon.charlotte.param.SchedulerParam;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -32,5 +32,5 @@ public interface ScheduleJobDao {
     @Insert({ "insert into tb_spider_scheduler_job (job_name, job_group, job_class, cron_expression, job_parameters, description, status, create_time, update_time)"
             + " values (#{jobName}, #{jobGroup}, #{jobClass}, #{cronExpression}, #{parameters}, #{description}, 1, now(), now()) " })
 //    @Options(useGeneratedKeys=true, keyProperty="id")
-    Long insertJob(SchedulerJobParam param);
+    Long insertJob(SchedulerParam param);
 }

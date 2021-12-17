@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kanon.charlotte.mapper.SchedulerManageMapper">
+
+    <resultMap type="com.kanon.charlotte.entity.SchedulerManage" id="SchedulerManageResult">
+        <result property="id"    column="id"    />
+        <result property="jobName"    column="job_name"    />
+        <result property="jobGroup"    column="job_group"    />
+        <result property="jobClass"    column="job_class"    />
+        <result property="cronExpression"    column="cron_expression"    />
+        <result property="jobParameters"    column="job_parameters"    />
+        <result property="description"    column="description"    />
+        <result property="status"    column="status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectSchedulerManageVo">
+        select id, job_name, job_group, job_class, cron_expression, job_parameters, description, status, create_time, update_time from tb_spider_scheduler_job
+    </sql>
+
+    <select id="selectSchedulerManageList" parameterType="com.kanon.charlotte.entity.SchedulerManage" resultMap="SchedulerManageResult">
+        <include refid="selectSchedulerManageVo"/>
+        <where>
+            <if test="jobName != null  and jobName != ''"> and job_name like concat('%', #{jobName}, '%')</if>
+            <if test="jobGroup != null  and jobGroup != ''"> and job_group = #{jobGroup}</if>
+            <if test="jobClass != null  and jobClass != ''"> and job_class = #{jobClass}</if>
+            <if test="cronExpression != null  and cronExpression != ''"> and cron_expression = #{cronExpression}</if>
+            <if test="jobParameters != null  and jobParameters != ''"> and job_parameters = #{jobParameters}</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectSchedulerManageById" parameterType="Long" resultMap="SchedulerManageResult">
+        <include refid="selectSchedulerManageVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSchedulerManage" parameterType="com.kanon.charlotte.entity.SchedulerManage" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_spider_scheduler_job
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="jobName != null">job_name,</if>
+            <if test="jobGroup != null">job_group,</if>
+            <if test="jobClass != null">job_class,</if>
+            <if test="cronExpression != null">cron_expression,</if>
+            <if test="jobParameters != null">job_parameters,</if>
+            <if test="description != null">description,</if>
+            <if test="status != null">status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="jobName != null">#{jobName},</if>
+            <if test="jobGroup != null">#{jobGroup},</if>
+            <if test="jobClass != null">#{jobClass},</if>
+            <if test="cronExpression != null">#{cronExpression},</if>
+            <if test="jobParameters != null">#{jobParameters},</if>
+            <if test="description != null">#{description},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSchedulerManage" parameterType="com.kanon.charlotte.entity.SchedulerManage">
+        update tb_spider_scheduler_job
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="jobName != null">job_name = #{jobName},</if>
+            <if test="jobGroup != null">job_group = #{jobGroup},</if>
+            <if test="jobClass != null">job_class = #{jobClass},</if>
+            <if test="cronExpression != null">cron_expression = #{cronExpression},</if>
+            <if test="jobParameters != null">job_parameters = #{jobParameters},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSchedulerManageById" parameterType="Long">
+        delete from tb_spider_scheduler_job where id = #{id}
+    </delete>
+
+    <delete id="deleteSchedulerManageByIds" parameterType="String">
+        delete from tb_spider_scheduler_job where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

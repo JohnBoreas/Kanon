@@ -3,7 +3,7 @@ package com.kanon.charlotte.controller;
 import java.util.List;
 
 import com.kanon.charlotte.entity.SpiderPersistence;
-import com.kanon.charlotte.service.charlotte.SpiderPersistenceService;
+import com.kanon.charlotte.service.spider.SpiderPersistenceService;
 import com.kanon.common.annotation.Log;
 import com.kanon.common.core.controller.BaseController;
 import com.kanon.common.core.entity.AjaxResult;
