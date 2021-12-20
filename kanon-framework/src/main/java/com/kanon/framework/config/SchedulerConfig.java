@@ -38,7 +38,7 @@ public class SchedulerConfig {
      * @throws IOException
      */
     @Bean(name = "schedulerFactoryBean")
-    public SchedulerFactoryBean schedulerFactoryBean(@Qualifier("masterDataSource") DataSource dataSource) throws IOException {
+    public SchedulerFactoryBean schedulerFactoryBean(@Qualifier("spiderDataSource") DataSource dataSource) throws IOException {
         SchedulerFactoryBean factory = new SchedulerFactoryBean();
         factory.setAutoStartup(true);
         factory.setStartupDelay(5);//延时5秒启动
