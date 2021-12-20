@@ -9,6 +9,7 @@ import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.quartz.QuartzDataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -41,6 +42,7 @@ public class DynamicDataSourceConfig {
     }
 
     // 使用@ConditionalOnProperty注解来控制@Configuration是否生效.
+    @QuartzDataSource
     @Bean(name = "spiderDataSource")
     @ConfigurationProperties(prefix = "spring.datasource.druid.spider")
     public DataSource spiderDataSource() {

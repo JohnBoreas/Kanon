@@ -18,11 +18,12 @@ import java.util.Properties;
  * @author xuhua.jiang
  * @date 2021/6/8 19:06
  */
+@Configuration
 public class SchedulerConfig {
     /*
      * 通过SchedulerFactoryBean获取Scheduler
      */
-//    @Bean(name = "scheduler")
+    @Bean(name = "scheduler")
     public Scheduler scheduler(@Qualifier("schedulerFactoryBean") SchedulerFactoryBean schedulerFactoryBean,
                                @Qualifier("customJobFactory") CustomJobFactory customJobFactory) throws SchedulerException {
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
@@ -36,8 +37,8 @@ public class SchedulerConfig {
      * @return
      * @throws IOException
      */
-//    @Bean(name = "schedulerFactoryBean")
-    public SchedulerFactoryBean schedulerFactoryBean(@Qualifier("spiderDataSource") DataSource dataSource) throws IOException {
+    @Bean(name = "schedulerFactoryBean")
+    public SchedulerFactoryBean schedulerFactoryBean(@Qualifier("masterDataSource") DataSource dataSource) throws IOException {
         SchedulerFactoryBean factory = new SchedulerFactoryBean();
         factory.setAutoStartup(true);
         factory.setStartupDelay(5);//延时5秒启动
@@ -52,7 +53,7 @@ public class SchedulerConfig {
      * @return
      * @throws IOException
      */
-//    @Bean
+    @Bean
     public Properties quartzProperties() throws IOException {
         PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
         // 这个东西如果不配置的话，quartz有自己默认的配置文件

@@ -85,6 +85,7 @@ public class SchedulerManageServiceImpl implements SchedulerManageService {
             return -1;
         }
         Boolean isAdd = ScheduleJobUtils.addJob(param);
+        schedulerManage.setStatus("1");
         if (isAdd) {
             int dbId = schedulerManageMapper.insertSchedulerManage(schedulerManage);
             log.info("新建job成功：" + param.getJobName() + "-" + param.getJobGroup());

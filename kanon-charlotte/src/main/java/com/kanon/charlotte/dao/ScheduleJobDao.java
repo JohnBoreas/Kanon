@@ -1,6 +1,7 @@
 package com.kanon.charlotte.dao;
 
 import com.kanon.charlotte.param.SchedulerParam;
+import com.kanon.common.annotation.DataSource;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
  */
 @Mapper
 @Repository
+@DataSource(value = "spiderDataSource")
 public interface ScheduleJobDao {
 
     /**

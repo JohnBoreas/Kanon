@@ -26,11 +26,7 @@
         <where>
             <if test="jobName != null  and jobName != ''"> and job_name like concat('%', #{jobName}, '%')</if>
             <if test="jobGroup != null  and jobGroup != ''"> and job_group = #{jobGroup}</if>
-            <if test="jobClass != null  and jobClass != ''"> and job_class = #{jobClass}</if>
-            <if test="cronExpression != null  and cronExpression != ''"> and cron_expression = #{cronExpression}</if>
-            <if test="jobParameters != null  and jobParameters != ''"> and job_parameters = #{jobParameters}</if>
-            <if test="description != null  and description != ''"> and description = #{description}</if>
-            <if test="status != null "> and status = #{status}</if>
+            <if test="jobClass != null  and jobClass != ''"> and job_class like concat('%', #{jobClass}, '%')</if>
         </where>
     </select>
 
