@@ -71,11 +71,11 @@ public class PaginationFetchJob extends AbstractJob {
          */
         //获取JobDetail中传递的参数
         log.info(spiderSource + "Fetch Start");
-        SpiderSource sourceDto = spiderSourceDao.selectBySource(spiderSource);
+        SpiderSource sourceDto = spiderSourceDao.selectSourceBySource(spiderSource);
 
-        SpiderPersistence spiderPersistence = spiderPersistenceConfigDao.selectBySource(spiderSource);
+        SpiderPersistence spiderPersistence = spiderSourceDao.selectPersistenceBySource(spiderSource);
         // 解析
-        List<SpiderExplain> explainStringDtoList = spiderExplainDao.selectBySource(spiderSource);
+        List<SpiderExplain> explainStringDtoList = spiderSourceDao.selectExplainBySource(spiderSource);
 
         Map<String, SpiderExplain> dtoMap = explainStringDtoList.stream().collect(Collectors.toMap(SpiderExplain::getExplainName, Function.identity()));
         // 初始化抓取参数

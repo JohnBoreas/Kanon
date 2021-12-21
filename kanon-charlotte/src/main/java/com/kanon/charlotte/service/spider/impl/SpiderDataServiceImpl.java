@@ -1,8 +1,6 @@
 package com.kanon.charlotte.service.spider.impl;
 
 import com.kanon.charlotte.constants.SpiderConstants;
-import com.kanon.charlotte.dao.SpiderExplainDao;
-import com.kanon.charlotte.dao.SpiderRequestDao;
 import com.kanon.charlotte.dao.SpiderSourceDao;
 import com.kanon.charlotte.common.SpiderPageResult;
 import com.kanon.charlotte.entity.SpiderExplain;
@@ -31,22 +29,14 @@ import java.util.stream.Collectors;
 @Slf4j
 public class SpiderDataServiceImpl implements SpiderDataService {
 
-    private SpiderRequestDao spiderRequestDao;
-
     private SpiderSourceDao spiderSourceDao;
-
-    private SpiderExplainDao spiderExplainDao;
 
     private StrategyService<SpiderParam> explainStrategyService;
 
     @Autowired
-    public SpiderDataServiceImpl(@Qualifier("spiderRequestDao") SpiderRequestDao spiderRequestDao,
-                                 @Qualifier("spiderSourceDao") SpiderSourceDao spiderSourceDao,
-                                 @Qualifier("spiderExplainDao") SpiderExplainDao spiderExplainDao,
+    public SpiderDataServiceImpl(@Qualifier("spiderSourceDao") SpiderSourceDao spiderSourceDao,
                                  @Qualifier("explainStrategyService")StrategyService<SpiderParam> explainStrategyService) {
-        this.spiderRequestDao = spiderRequestDao;
         this.spiderSourceDao = spiderSourceDao;
-        this.spiderExplainDao = spiderExplainDao;
         this.explainStrategyService = explainStrategyService;
     }
 
@@ -60,7 +50,7 @@ public class SpiderDataServiceImpl implements SpiderDataService {
         // 设置参数
         setSpiderParam(param);
         // 获取request
-        List<SpiderRequest> requestDtoList = spiderRequestDao.selectBySource(param.getSpiderSource());
+        List<SpiderRequest> requestDtoList = spiderSourceDao.selectRequestBySource(param.getSpiderSource());
         // header map
         Map<String, String> headersParams = new HashMap<>();
         requestDtoList.stream().forEach(dto -> {
@@ -105,7 +95,7 @@ public class SpiderDataServiceImpl implements SpiderDataService {
             // 设置参数
             setSpiderParam(param);
             // 解析
-            List<SpiderExplain> explainStringDtoList = spiderExplainDao.selectBySource(spiderSource);
+            List<SpiderExplain> explainStringDtoList = spiderSourceDao.selectExplainBySource(spiderSource);
             Map<String, SpiderExplain> dtoMap = explainStringDtoList.stream().collect(Collectors.toMap(SpiderExplain::getExplainName, Function.identity()));
 
             String content = originalContent(param);
@@ -122,7 +112,7 @@ public class SpiderDataServiceImpl implements SpiderDataService {
     private void setSpiderParam(SpiderParam param) {
         // 参数中缺少相应的参数则查db获取
         if (StringUtils.isEmpty(param.getReqUrl())) {
-            SpiderSource sourceDto = spiderSourceDao.selectBySource(param.getSpiderSource());
+            SpiderSource sourceDto = spiderSourceDao.selectSourceBySource(param.getSpiderSource());
             // 初始化抓取参数
             param.setSpiderSource(param.getSpiderSource());
             param.setReqUrl(sourceDto.getReqUrl());
