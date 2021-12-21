@@ -26,7 +26,7 @@ public class DbPersistenceDataService implements PersistenceDataService {
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public DbPersistenceDataService(@Qualifier("wealthPasswordJdbcTemplate") JdbcTemplate jdbcTemplate) {
+    public DbPersistenceDataService(@Qualifier("wealthJdbcTemplate") JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

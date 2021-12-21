@@ -35,7 +35,7 @@ public class SchedulerParam {
     /**
      * 任务调用的方法传入的参数,统一使用String,
      */
-    private String parameters;
+    private String jobParameters;
     /**
      * 任务是否有状态 是否支持并行
      */

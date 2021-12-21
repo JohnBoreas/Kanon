@@ -97,7 +97,18 @@ public class SchedulerManageServiceImpl implements SchedulerManageService {
     @Override
     public int updateSchedulerManage(SchedulerManage schedulerManage) {
         schedulerManage.setUpdateTime(DateUtils.getNowDate());
-        return schedulerManageMapper.updateSchedulerManage(schedulerManage);
+        schedulerManage.setStatus("1");
+        int i = schedulerManageMapper.updateSchedulerManage(schedulerManage);
+        if (i > 0) {
+            SchedulerParam param = new SchedulerParam();
+            BeanUtils.copyProperties(schedulerManage, param);
+            Boolean isUpdate= ScheduleJobUtils.updateJob(param);
+            if (isUpdate) {
+                log.info("更新job成功：" + param.getJobName() + "-" + param.getJobGroup());
+                return 1;
+            }
+        }
+        return -1;
     }
 
     @Override
@@ -107,6 +118,17 @@ public class SchedulerManageServiceImpl implements SchedulerManageService {
 
     @Override
     public int deleteSchedulerManageById(Long id) {
-        return schedulerManageMapper.deleteSchedulerManageById(id);
+        SchedulerManage schedulerManage = schedulerManageMapper.selectSchedulerManageById(id);
+        if (schedulerManage != null) {
+            SchedulerParam param = new SchedulerParam();
+            BeanUtils.copyProperties(schedulerManage, param);
+            boolean isDel = ScheduleJobUtils.deleteJob(param.getJobName(), param.getJobGroup());
+            if (isDel) {
+                schedulerManageMapper.deleteSchedulerManageById(id);
+                log.info("删除job成功：" + param.getJobName() + "-" + param.getJobGroup());
+                return 1;
+            }
+        }
+        return -1;
     }
 }

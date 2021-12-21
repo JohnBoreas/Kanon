@@ -40,7 +40,6 @@ public class ScheduleJobUtils {
         TriggerKey triggerKey = TriggerKey.triggerKey(job.getJobName(), job.getJobGroup());
 
         if (!ScheduleJob.STATUS_RUNNING.equals(job.getJobStatus())) {
-            this.deleteJob(scheduler, triggerKey);
             log.info("删除任务{}", job.getJobName());
         } else {
             addJob(scheduler, triggerKey, job);
@@ -121,6 +120,7 @@ public class ScheduleJobUtils {
 
     /**
      * 添加job
+     *
      * @param param
      */
     public static Boolean addJob(SchedulerParam param) {
@@ -133,11 +133,13 @@ public class ScheduleJobUtils {
                 return false;
             }
             clazz = Class.forName(param.getJobClass());
-            Map<String, String> params = StructureChangeUtils.stringToMap(param.getParameters());
+            Map<String, String> params = StructureChangeUtils.stringToMap(param.getJobParameters());
             JobBuilder jobBuilder = JobBuilder.newJob(clazz).withIdentity(param.getJobName(), param.getJobGroup());
             //设置参数
             if (params != null) {
-                params.entrySet().stream().forEach(par -> {jobBuilder.usingJobData(par.getKey(), par.getValue());});
+                params.entrySet().stream().forEach(par -> {
+                    jobBuilder.usingJobData(par.getKey(), par.getValue());
+                });
             }
             //创建jobdetail
             JobDetail jobDetail = jobBuilder
@@ -160,24 +162,77 @@ public class ScheduleJobUtils {
         }
         return false;
     }
+
+    /**
+     * 添加job
+     *
+     * @param param
+     */
+    public static Boolean updateJob(SchedulerParam param) {
+        Scheduler scheduler = schedulerFactoryBean.getScheduler();
+        Class clazz = null;
+        try {
+            // 判断是否存在
+            if (scheduler.checkExists(JobKey.jobKey(param.getJobName(), param.getJobGroup()))) {
+                log.info("当前已存在该job, " + param.getJobName() + "-" + param.getJobGroup());
+                deleteJob(param.getJobName(), param.getJobGroup());
+            }
+            clazz = Class.forName(param.getJobClass());
+            Map<String, String> params = StructureChangeUtils.stringToMap(param.getJobParameters());
+            JobBuilder jobBuilder = JobBuilder.newJob(clazz).withIdentity(param.getJobName(), param.getJobGroup());
+            //创建jobdetail
+            JobDetail jobDetail = jobBuilder
+                    //描述
+                    .withDescription(param.getDescription())
+                    .build();
+            //设置参数
+            if (params != null) {
+                params.entrySet().stream().forEach(par -> {
+                    jobDetail.getJobDataMap().put(par.getKey(), par.getValue());
+                });
+            }
+            // 使用cron表达式
+            CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(param.getCronExpression());
+            Trigger trigger = TriggerBuilder.newTrigger().withIdentity("trigger-" + param.getJobName(), param.getJobGroup())
+                    .startNow()
+                    .withSchedule(cronScheduleBuilder)
+                    .build();
+            // 交由Scheduler安排触发
+            scheduler.scheduleJob(jobDetail, trigger);
+            return true;
+        } catch (SchedulerException e) {
+            log.error("添加job出现异常", e);
+        } catch (ClassNotFoundException e) {
+            log.error(param.getJobClass(), e);
+        }
+        return false;
+    }
+
     /**
      * 删除job
      *
-     * @param scheduler
-     * @param triggerKey
-     * @throws Exception
+     * @param jobName  job名称
+     * @param jobGroup job 分组
      */
-    private void deleteJob(Scheduler scheduler, TriggerKey triggerKey) {
-        if (null != triggerKey) {
-            try {
-                scheduler.unscheduleJob(triggerKey);
-            } catch (SchedulerException e) {
-                log.error("删除job异常");
-                e.printStackTrace();
-            }
-        } else {
-            log.warn("删除job无效,没有指定对应的Trigger");
+    public static boolean deleteJob(String jobName, String jobGroup) {
+        Scheduler scheduler = schedulerFactoryBean.getScheduler();
+        TriggerKey triggerKey = TriggerKey.triggerKey(jobName, jobGroup);
+        try {
+            scheduler.deleteJob(JobKey.jobKey(jobName, jobGroup));
+            scheduler.unscheduleJob(triggerKey);
+            log.info("删除job " + jobGroup + "." + jobName);
+            return true;
+        } catch (SchedulerException e) {
+            log.error("删除job" + jobGroup + "." + jobName + "出现异常", e);
         }
+        return false;
+    }
+
+    /**
+     * 构建任务键对象
+     */
+    public static JobKey getJobKey(SchedulerParam param) {
+        return JobKey.jobKey(param.getJobName(), param.getJobGroup());
     }
 
     /**
@@ -245,23 +300,6 @@ public class ScheduleJobUtils {
             scheduler.resumeAll();
         } catch (SchedulerException e) {
             log.error("恢复所有job异常", e);
-        }
-    }
-
-    /**
-     * 删除job
-     *
-     * @param jobName  job名称
-     * @param jobGroup job 分组
-     */
-    public void deleteJob(String jobName, String jobGroup) {
-        Scheduler scheduler = schedulerFactoryBean.getScheduler();
-        TriggerKey triggerKey = TriggerKey.triggerKey(jobName, jobGroup);
-        try {
-            /*scheduler.deleteJob(JobKey.jobKey(jobName,jobGroup));*/
-            scheduler.unscheduleJob(triggerKey);
-        } catch (SchedulerException e) {
-            log.error("删除job" + jobGroup + "." + jobName + "出现异常", e);
         }
     }
 }

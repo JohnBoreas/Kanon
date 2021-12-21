@@ -23,7 +23,7 @@ public class FetchOrgReportSpider {
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public FetchOrgReportSpider(@Qualifier("wealthPasswordJdbcTemplate") JdbcTemplate jdbcTemplate) {
+    public FetchOrgReportSpider(@Qualifier("wealthJdbcTemplate") JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

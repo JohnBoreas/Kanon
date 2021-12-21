@@ -30,8 +30,8 @@ public class JdbcTemplateDataSourceConfig {
         return new JdbcTemplate(dataSource);
     }
 
-    @Bean(name = "wealthPasswordJdbcTemplate")
-    public JdbcTemplate wealthPasswordJdbcTemplate(@Qualifier("wealthDataSource") DataSource dataSource) {
+    @Bean(name = "wealthJdbcTemplate")
+    public JdbcTemplate wealthJdbcTemplate(@Qualifier("wealthDataSource") DataSource dataSource) {
         return new JdbcTemplate(dataSource);
     }
 }
