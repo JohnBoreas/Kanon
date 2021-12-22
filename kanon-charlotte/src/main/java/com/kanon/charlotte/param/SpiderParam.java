@@ -24,4 +24,5 @@ public class SpiderParam {
     protected Boolean needProxy;
 
     protected String dataType;
+
 }

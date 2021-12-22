@@ -1,6 +1,7 @@
 package com.kanon.charlotte.controller;
 
 import com.kanon.charlotte.entity.SpiderExplain;
+import com.kanon.charlotte.param.SpiderConfigParam;
 import com.kanon.charlotte.service.spider.SpiderExplainService;
 import com.kanon.common.annotation.Log;
 import com.kanon.common.core.controller.BaseController;
@@ -80,6 +81,39 @@ public class SpiderExplainController extends BaseController {
     @ResponseBody
     public AjaxResult addSave(SpiderExplain spiderExplain) {
         return toAjax(spiderExplainService.insertSpiderExplain(spiderExplain));
+    }
+
+    /**
+     * 新增返回内容解析规则配置
+     */
+    @GetMapping("/adds")
+    public String adds() {
+        return prefix + "/adds";
+    }
+
+    /**
+     * 新增保存返回内容解析规则配置
+     */
+    @RequiresPermissions("spider:explain:adds")
+    @Log(title = "返回内容解析规则配置", businessType = BusinessType.INSERT)
+    @PostMapping("/adds")
+    @ResponseBody
+    public AjaxResult addsSave(SpiderConfigParam param) {
+        if (param.getExplains() != null && param.getExplains().size() > 0) {
+            int count = 0;
+            for (SpiderExplain explain : param.getExplains()) {
+                SpiderExplain spiderExplain = new SpiderExplain();
+                spiderExplain.setSpiderSource(param.getSpiderSource());
+                spiderExplain.setExplainName(explain.getExplainName());
+                spiderExplain.setExplainValue(explain.getExplainValue());
+                int result = spiderExplainService.insertSpiderExplain(spiderExplain);
+                if (result > 0) {
+                    count ++;
+                }
+            }
+            return toAjax(count);
+        }
+        return AjaxResult.warn("没有填入解析规则");
     }
 
     /**

@@ -15,21 +15,6 @@
                             <input type="text" name="spiderSource"/>
                         </li>
                         <li>
-                            <label>解释成的字段名称：</label>
-                            <input type="text" name="explainName"/>
-                        </li>
-                        <li>
-                            <label>被解释的字段名称或者正则表达式：</label>
-                            <input type="text" name="explainValue"/>
-                        </li>
-                        <li>
-                            <label>数据类型, TIME:时间;PAGE:分页;COMMON:公共;LIST:分页：</label>
-                            <select name="valueType">
-                                <option value="">所有</option>
-                                <option value="-1">代码生成请选择字典属性</option>
-                            </select>
-                        </li>
-                        <li>
                             <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i> 搜索</a>
                             <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i> 重置</a>
                         </li>
@@ -39,6 +24,9 @@
         </div>
 
         <div class="btn-group-sm" id="toolbar" role="group">
+            <a class="btn btn-primary btn-rounded" onclick="$.operate.adds()" shiro:hasPermission="spider:explain:adds">
+                <i class="fa fa-plus"></i> 批量添加
+            </a>
             <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="spider:explain:add">
                 <i class="fa fa-plus"></i> 添加
             </a>
@@ -56,6 +44,7 @@
 </div>
 <th:block th:include="include :: footer" />
 <script th:inline="javascript">
+
     var editFlag = [[${@permission.hasPermi('spider:explain:edit')}]];
     var removeFlag = [[${@permission.hasPermi('spider:explain:remove')}]];
     var prefix = ctx + "spider/explain";
@@ -64,6 +53,7 @@
         var options = {
             url: prefix + "/list",
             createUrl: prefix + "/add",
+            createUrls: prefix + "/adds",
             updateUrl: prefix + "/edit/{id}",
             removeUrl: prefix + "/remove",
             exportUrl: prefix + "/export",

@@ -15,14 +15,6 @@
                             <input type="text" name="spiderSource"/>
                         </li>
                         <li>
-                            <label>header：</label>
-                            <input type="text" name="headerName"/>
-                        </li>
-                        <li>
-                            <label>header value：</label>
-                            <input type="text" name="headerValue"/>
-                        </li>
-                        <li>
                             <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i> 搜索</a>
                             <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i> 重置</a>
                         </li>
@@ -32,6 +24,9 @@
         </div>
 
         <div class="btn-group-sm" id="toolbar" role="group">
+            <a class="btn btn-primary btn-rounded" onclick="$.operate.adds()" shiro:hasPermission="spider:request:adds">
+                <i class="fa fa-plus"></i> 批量添加
+            </a>
             <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="spider:request:add">
                 <i class="fa fa-plus"></i> 添加
             </a>
@@ -56,6 +51,7 @@
     $(function() {
         var options = {
             url: prefix + "/list",
+            createUrls: prefix + "/adds",
             createUrl: prefix + "/add",
             updateUrl: prefix + "/edit/{id}",
             removeUrl: prefix + "/remove",

@@ -1,6 +1,7 @@
 package com.kanon.charlotte.controller;
 
 import com.kanon.charlotte.entity.SpiderRequest;
+import com.kanon.charlotte.param.SpiderConfigParam;
 import com.kanon.charlotte.service.spider.SpiderRequestService;
 import com.kanon.common.annotation.Log;
 import com.kanon.common.core.controller.BaseController;
@@ -75,6 +76,39 @@ public class SpiderRequestController extends BaseController {
     @ResponseBody
     public AjaxResult addSave(SpiderRequest SpiderRequest) {
         return toAjax(spiderRequestService.insertSpiderRequest(SpiderRequest));
+    }
+
+    /**
+     * 新增请求request配置
+     */
+    @GetMapping("/adds")
+    public String adds() {
+        return prefix + "/adds";
+    }
+
+    /**
+     * 新增保存请求request配置
+     */
+    @RequiresPermissions("spider:request:adds")
+    @Log(title = "请求request配置", businessType = BusinessType.INSERT)
+    @PostMapping("/adds")
+    @ResponseBody
+    public AjaxResult addsSave(SpiderConfigParam param) {
+        if (param.getHeaders() != null && param.getHeaders().size() > 0) {
+            int count = 0;
+            for (SpiderRequest request : param.getHeaders()) {
+                SpiderRequest spiderRequest = new SpiderRequest();
+                spiderRequest.setSpiderSource(param.getSpiderSource());
+                spiderRequest.setHeaderName(request.getHeaderName());
+                spiderRequest.setHeaderValue(request.getHeaderValue());
+                int result = spiderRequestService.insertSpiderRequest(spiderRequest);
+                if (result > 0) {
+                    count ++;
+                }
+            }
+            return toAjax(count);
+        }
+        return AjaxResult.warn("没有填入Header");
     }
 
     /**

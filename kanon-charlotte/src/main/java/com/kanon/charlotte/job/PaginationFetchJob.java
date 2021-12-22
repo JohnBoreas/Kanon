@@ -47,13 +47,14 @@ public class PaginationFetchJob extends AbstractJob {
             log.info(triggerKey.getName() + ":" + triggerKey.getGroup() + ":前一次未执行完,跳过本次任务!");
             return;
         }
-        isRunMap.put(triggerKey.getName() + ":" + triggerKey.getGroup(), false);
+        isRunMap.put(triggerKey.getName() + ":" + triggerKey.getGroup(), true);
         String spiderSource = (String) context.getJobDetail().getJobDataMap().get("spiderSource");
         try {
             task(spiderSource);
         } catch (Exception e) {
             log.error(spiderSource, e);
         }
+        isRunMap.put(triggerKey.getName() + ":" + triggerKey.getGroup(), false);
         log.info("Trigger's end " + triggerKey.getName() + ":" + triggerKey.getGroup());
     }
 
