@@ -18,7 +18,7 @@ import java.util.*;
  * @date 2021/6/7 23:07
  */
 @Service("explainJsonStringService")
-public class ExplainJsonStringService implements ExplainStringService {
+public class ExplainJsonStringServiceImpl implements ExplainStringService {
 
     @Override
     public SpiderResult<Map<String, String>> explain(Map<String, SpiderExplain> dtoMap, String content) {
