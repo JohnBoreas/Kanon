@@ -28,14 +28,14 @@ public class ExplainStrategyService implements StrategyService<SpiderParam> {
 
     @Override
     public BaseService strategy(SpiderParam param) {
-        String dataTYpe = param.getDataType();
-        switch (Objects.requireNonNull(DataType.resolve(dataTYpe))) {
+        String dataType = param.getDataType();
+        switch (Objects.requireNonNull(DataType.resolve(dataType))) {
             case JSON:
                 return explainJsonStringService;
             case HTML:
                 return explainHtmlStringService;
             default:
-                throw new IllegalArgumentException("Invalid data type: " + dataTYpe);
+                throw new IllegalArgumentException("Invalid data type: " + dataType);
         }
     }
 }
