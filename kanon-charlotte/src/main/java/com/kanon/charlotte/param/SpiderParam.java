@@ -25,4 +25,6 @@ public class SpiderParam {
 
     protected String dataType;
 
+    protected boolean isPage;
+
 }

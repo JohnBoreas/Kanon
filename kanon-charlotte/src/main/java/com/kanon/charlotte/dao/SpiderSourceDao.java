@@ -26,6 +26,7 @@ public interface SpiderSourceDao {
             "req_method AS reqMethod, " +
             "req_param AS reqParam, " +
             "data_type AS dataType, " +
+            "is_page AS isPage, " +
             "need_proxy AS needProxy, " +
             "need_cookie AS needCookie, " +
             "need_token AS needToken, " +

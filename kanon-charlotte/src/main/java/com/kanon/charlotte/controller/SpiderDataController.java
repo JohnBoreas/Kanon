@@ -32,4 +32,5 @@ public class SpiderDataController {
     public Result explainContent(@Validated SpiderParam param) {
         return Result.success(spiderDataService.explainContent(param));
     }
+
 }

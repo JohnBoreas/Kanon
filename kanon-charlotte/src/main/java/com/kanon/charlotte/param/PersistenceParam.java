@@ -1,6 +1,7 @@
 package com.kanon.charlotte.param;
 
 import com.kanon.charlotte.common.SpiderPageResult;
+import com.kanon.charlotte.common.SpiderResult;
 import lombok.Data;
 
 /**
@@ -13,6 +14,8 @@ public class PersistenceParam<T> {
     private String spiderSource;
 
     private SpiderPageResult<T> spiderPageResult;
+
+    private SpiderResult<T> spiderResult;
 
     private String tableName;
 

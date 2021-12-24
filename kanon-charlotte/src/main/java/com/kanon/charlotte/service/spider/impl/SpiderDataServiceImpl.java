@@ -1,5 +1,6 @@
 package com.kanon.charlotte.service.spider.impl;
 
+import com.kanon.charlotte.common.SpiderResult;
 import com.kanon.charlotte.constants.SpiderConstants;
 import com.kanon.charlotte.dao.SpiderSourceDao;
 import com.kanon.charlotte.common.SpiderPageResult;
@@ -10,6 +11,7 @@ import com.kanon.charlotte.param.SpiderParam;
 import com.kanon.charlotte.service.StrategyService;
 import com.kanon.charlotte.service.explain.ExplainStringService;
 import com.kanon.charlotte.service.spider.SpiderDataService;
+import com.kanon.charlotte.util.DateUtils;
 import com.kanon.common.http.httpclient.HttpClientUtils;
 import com.kanon.charlotte.util.StructureChangeUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -66,6 +68,10 @@ public class SpiderDataServiceImpl implements SpiderDataService {
         if (params != null && params.containsKey(SpiderConstants.CURRENT_TIME)) {
             params.put(SpiderConstants.CURRENT_TIME, String.valueOf(System.currentTimeMillis()));
         }
+        // 当前时间
+        if (params != null && params.containsKey(SpiderConstants.CURRENT_DATE)) {
+            params.put(SpiderConstants.CURRENT_DATE, DateUtils.currentDate());
+        }
         param.setParamMap(params);
         String method = param.getReqMethod();
         switch (HttpMethod.resolve(method)) {
@@ -99,10 +105,14 @@ public class SpiderDataServiceImpl implements SpiderDataService {
             Map<String, SpiderExplain> dtoMap = explainStringDtoList.stream().collect(Collectors.toMap(SpiderExplain::getExplainName, Function.identity()));
 
             String content = originalContent(param);
-            ExplainStringService explainStringDao = (ExplainStringService) explainStrategyService.strategy(param);
+            ExplainStringService explainStringService = (ExplainStringService) explainStrategyService.strategy(param);
             // 解析数据
-            SpiderPageResult<Map<String, String>> spiderPageResult = explainStringDao.explainPage(dtoMap, content);
-            return spiderPageResult;
+            if (param.isPage()) {
+                SpiderPageResult<Map<String, String>> spiderPageResult = explainStringService.explainPage(dtoMap, content);
+                return spiderPageResult;
+            }
+            SpiderResult<Map<String, String>> spiderResult = explainStringService.explain(dtoMap, content);
+            return spiderResult;
         } catch (Exception e) {
             log.error(spiderSource + " Fetch Error", e);
         }
@@ -121,6 +131,7 @@ public class SpiderDataServiceImpl implements SpiderDataService {
             param.setReqParam(sourceDto.getReqParam());
             param.setReqMethod(sourceDto.getReqMethod());
             param.setDataType(sourceDto.getDataType());
+            param.setPage(sourceDto.isPageList());
         }
     }
 }

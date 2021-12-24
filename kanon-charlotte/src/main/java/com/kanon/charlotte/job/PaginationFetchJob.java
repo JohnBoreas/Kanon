@@ -83,6 +83,7 @@ public class PaginationFetchJob extends AbstractJob {
         SpiderParam param = new SpiderParam();
         param.setSpiderSource(spiderSource);
         param.setReqUrl(sourceDto.getReqUrl());
+        param.setPage(sourceDto.isPageList());
         param.setNeedProxy(sourceDto.needProxy());
         // 支持 {offset} {pageNo}
         param.setReqParam(sourceDto.getReqParam());
@@ -132,7 +133,7 @@ public class PaginationFetchJob extends AbstractJob {
                         persistenceParam.setInsertField(spiderPersistence.getInsertField());
                         persistenceParam.setUpdateField(spiderPersistence.getUpdateField());
                         persistenceParam.setSpiderPageResult(spiderPageResult);
-                        persistenceDataService.save(persistenceParam);
+                        persistenceDataService.savePage(persistenceParam);
                     }
                 } else {
                     log.error("抓取失败" + spiderSource + ", page :" + page);

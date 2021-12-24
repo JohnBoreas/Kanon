@@ -19,6 +19,8 @@ public class SpiderConstants {
     public static final String EQUAL_SIGN = "=";
     // 参数中的当期时间
     public static final String CURRENT_TIME = "{currentTime}";
+    // 参数中的当前日期
+    public static final String CURRENT_DATE = "{currentDate}";
     // 参数中的offset
     public static final String PAGE_NO = "{pageNo}";
     // 参数中的页码

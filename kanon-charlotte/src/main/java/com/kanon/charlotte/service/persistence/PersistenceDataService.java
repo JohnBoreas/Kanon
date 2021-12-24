@@ -9,5 +9,7 @@ import com.kanon.charlotte.service.BaseService;
  */
 public interface PersistenceDataService extends BaseService {
 
+    Integer savePage(PersistenceParam param);
+
     Integer save(PersistenceParam param);
 }

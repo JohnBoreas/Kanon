@@ -249,13 +249,16 @@ public class DateUtils {
         return day_end_prevM;
     }
 
-    public static String getBeijingTimeStr() {
+    /**
+     * yyyy-MM-dd
+     * @return
+     */
+    public static String currentDate() {
         Date time = new Date();
-        TimeZone timezone = TimeZone.getTimeZone("GMT+08:00");
-        DEFAULT_SDF.setTimeZone(timezone);
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         // 获得格式化后的东八区时间
-        String gmt08DateTime = DEFAULT_SDF.format(time);
-        return gmt08DateTime;
+        String day = df.format(time.getTime());
+        return day;
     }
 
     /**

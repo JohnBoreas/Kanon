@@ -72,6 +72,13 @@ public class SpiderSource extends BaseTime {
     @SerializedName("is_last_cookie")
     protected Integer isLastCookie;
 
+    public Boolean isPageList() {
+        if (isPage != null && isPage == 1) {
+            return true;
+        }
+        return false;
+    }
+
     public Boolean needProxy() {
         if (needProxy != null && needProxy == 1) {
             return true;

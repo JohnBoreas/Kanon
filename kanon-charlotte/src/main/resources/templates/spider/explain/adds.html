@@ -121,11 +121,11 @@
 <script id="explainValueTpl" type="text/x-jquery-tmpl">
     <div>
         <select class='form-control' name='explains[${index}].valueType'>
-            <option value="">所有</option>
-            <option value="LIST" {{if type==="0"}} selected{{/if}}>列表数据</option>
-            <option value="COMMON" {{if type==="1"}} selected{{/if}}>公共数据</option>
-            <option value="PAGE" {{if type==="1"}} selected{{/if}}>分页</option>
-            <option value="TIME" {{if type==="1"}} selected{{/if}}>时间</option>
+            <option value="">--请选择--</option>
+            <option value="LIST" {{if type==="0"}}selected{{/if}}>列表数据</option>
+            <option value="COMMON" {{if type==="1"}}selected{{/if}}>公共数据</option>
+            <option value="PAGE" {{if type==="1"}}selected{{/if}}>分页</option>
+            <option value="TIME" {{if type==="1"}}selected{{/if}}>时间</option>
         </select>
     </div>
 </script>

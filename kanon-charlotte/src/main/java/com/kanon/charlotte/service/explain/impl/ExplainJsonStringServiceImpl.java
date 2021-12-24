@@ -45,7 +45,7 @@ public class ExplainJsonStringServiceImpl implements ExplainStringService {
         for (Map.Entry<String, SpiderExplain> entry : dtoMap.entrySet()) {
             String explainValue = entry.getValue().getExplainValue();
             if (ValueType.COMMON.matches(entry.getValue().getValueType())) {
-                Object object = JsonUtils.getObject(explainValue, JSONObject.toJSONString(content));
+                Object object = JsonUtils.getObject(explainValue, content);
                 String value = String.valueOf(object);
                 resultMap.put(entry.getKey(), value);
             }
@@ -73,7 +73,7 @@ public class ExplainJsonStringServiceImpl implements ExplainStringService {
         results.setCode(code);
         // 失败返回
         if (!dtoMap.get(SpiderConstants.CODE_VALUE).getExplainValue().equals(code)) {
-            results.setErrorMsg("抓取失败, 抓取返回code非正常返回值");
+            results.setErrorMsg("抓取失败, 抓取返回code非正常返回值, 原始抓取数据" + content);
             return results;
         }
         // 分页数据
@@ -92,7 +92,7 @@ public class ExplainJsonStringServiceImpl implements ExplainStringService {
         for (Map.Entry<String, SpiderExplain> entry : dtoMap.entrySet()) {
             String explainValue = entry.getValue().getExplainValue();
             if (ValueType.COMMON.matches(entry.getValue().getValueType())) {
-                Object object = JsonUtils.getObject(explainValue, JSONObject.toJSONString(content));
+                Object object = JsonUtils.getObject(explainValue, content);
                 String value = String.valueOf(object);
                 commonValueMap.put(entry.getKey(), value);
             }

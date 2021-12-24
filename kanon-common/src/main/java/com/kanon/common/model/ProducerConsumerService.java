@@ -25,7 +25,7 @@ public class ProducerConsumerService {
      * @param threadNum 消费者个数
      * @param processor 处理器
      */
-    public List<Thread> processorMultiConsumer(JdbcTemplate jdbcTemplate, String selectSql, int threadNum, Processor<Map<String, Object>> processor) {
+    public static List<Thread> processorMultiConsumer(JdbcTemplate jdbcTemplate, String selectSql, int threadNum, Processor<Map<String, Object>> processor) {
         return processorMultiConsumer(jdbcTemplate, selectSql, 0, 10000, threadNum, processor);
     }
     /**
@@ -37,7 +37,7 @@ public class ProducerConsumerService {
      * @param threadNum 消费者个数
      * @param processor 处理器
      */
-    public List<Thread> processorMultiConsumer(JdbcTemplate jdbcTemplate, String selectSql, int startId, int limit, int threadNum, Processor<Map<String, Object>> processor) {
+    public static List<Thread> processorMultiConsumer(JdbcTemplate jdbcTemplate, String selectSql, int startId, int limit, int threadNum, Processor<Map<String, Object>> processor) {
         LinkedBlockingQueue<Map<String, Object>> queue = new LinkedBlockingQueue<>(limit); // 待抓取商品队列
         ProcessorList<Map<String, Object>> processorList  = new SingleProcessor<>(queue);
         SelectDbProducer dataProducer = new SelectDbProducer(processorList, jdbcTemplate, selectSql, startId, limit);
