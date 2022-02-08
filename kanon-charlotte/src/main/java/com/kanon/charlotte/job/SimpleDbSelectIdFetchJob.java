@@ -45,7 +45,7 @@ public class SimpleDbSelectIdFetchJob extends AbstractJob {
             log.info(triggerKey.getName() + ":" + triggerKey.getGroup() + ":前一次未执行完,跳过本次任务!");
             return;
         }
-        isRunMap.put(triggerKey.getName() + ":" + triggerKey.getGroup(), false);
+        isRunMap.put(triggerKey.getName() + ":" + triggerKey.getGroup(), true);
         String spiderSource = (String) context.getJobDetail().getJobDataMap().get("spiderSource");
         String selectSql = (String) context.getJobDetail().getJobDataMap().get("selectSql");
         String threadNum = (String) context.getJobDetail().getJobDataMap().get("threadNum");
@@ -57,6 +57,7 @@ public class SimpleDbSelectIdFetchJob extends AbstractJob {
         } catch (Exception e) {
             log.error(spiderSource, e);
         }
+        isRunMap.put(triggerKey.getName() + ":" + triggerKey.getGroup(), false);
         log.info("Trigger's end " + triggerKey.getName() + ":" + triggerKey.getGroup());
     }
 
